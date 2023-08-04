@@ -40,12 +40,13 @@
         android:id="@+id/big_item_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:cardBackgroundColor="#DA9F9F"
         app:cardCornerRadius="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scroll_item_card">
+        app:layout_constraintTop_toBottomOf="@id/scroll_item_card"
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/big_item_layout"
@@ -69,12 +70,13 @@
         android:id="@+id/small_item_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:cardBackgroundColor="#DFA2A2"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/big_item_card">
+        app:layout_constraintTop_toBottomOf="@id/big_item_card"
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/small_item_layout"
