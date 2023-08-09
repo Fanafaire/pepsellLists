@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">popsellLists</string>
-    <string name="title_home">Home</string>
+    <string name="title_chat_item">Chat</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    // chat item
+    <string name="chat_item_name">Chat Name</string>
+    <string name="chat_item_message">Last Message</string>
+    <string name="chat_image_descr">Chat image</string>
+    <string name="chat_image_open">Open chat</string>
+    <string name="chat_image_phone">Phone</string>
+    <string name="chat_image_search_hint">Пошук</string>
 </resources>
