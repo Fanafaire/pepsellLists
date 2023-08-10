@@ -1,14 +1,10 @@
 package com.example.popselllists.retrofit;
 
-import org.json.JSONObject;
+import java.util.ArrayList;
 
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
-public class Post {
+public class ChatRoomList {
     // General data
-    private List<Chatroom> chatrooms;
+    private ArrayList<Chatroom> chatrooms;
     private String STATUS;
     private String ERROR;
     private String TYPE;
@@ -26,11 +22,11 @@ public class Post {
         this.name = name;
     }
 
-    public List<Chatroom> getChatrooms() {
+    public ArrayList<Chatroom> getChatrooms() {
         return chatrooms;
     }
 
-    public void setChatrooms(List<Chatroom> chatrooms) {
+    public void setChatrooms(ArrayList<Chatroom> chatrooms) {
         this.chatrooms = chatrooms;
     }
 

@@ -1,34 +1,22 @@
 package com.example.popselllists.ui.dashboard;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.popselllists.R;
 import com.example.popselllists.databinding.FragmentDashboardBinding;
 import com.example.popselllists.retrofit.Chatroom;
-import com.example.popselllists.retrofit.JsonPlaseHolderApi;
-import com.example.popselllists.retrofit.Post;
-import com.example.popselllists.retrofit.PostBody;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import java.util.ArrayList;
 
 public class DashboardFragment extends Fragment {
 
@@ -44,60 +32,31 @@ public class DashboardFragment extends Fragment {
         View root = binding.getRoot();
 
         textView2 = root.findViewById(R.id.text_dashboard);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://wapp.pepsell.net/Pepsell2/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        JsonPlaseHolderApi jsonPlaseHolderApi = retrofit.create(JsonPlaseHolderApi.class);
-
-        PostBody postBody = new PostBody("CHATROOM_LIST", "380990143524", "1", 1690819233997L);
-
-        Call<Post> call = jsonPlaseHolderApi.getPosts(postBody);
-        generateCall(call);
-
+        updateTextView(dashboardViewModel.getChatrooms());
 
         return root;
     }
 
-    private void generateCall(Call<Post> call) {
-        Toast.makeText(getActivity(), "generateCall", Toast.LENGTH_SHORT).show();
-        call.enqueue(new Callback<Post>() {
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-                if (!response.isSuccessful()) {
-                    textView2.setText("codeErr: " + response);
-                    return;
-                }
+    private void updateTextView(LiveData<ArrayList<Chatroom>> liveData) {
+        // Create the observer which updates the UI.
+        final Observer<ArrayList<Chatroom>> nameObserver = chatrooms -> {
+            // Update the UI
+            if(chatrooms != null)
+                textView2.append(makeText(chatrooms));
+            else
+                textView2.append("Have no chatrooms");
+        };
 
-//                textView2.setText("resp: " + response.);
+        liveData.observe(this, nameObserver);
+    }
 
-                Toast.makeText(getActivity(), "onResponse", Toast.LENGTH_SHORT).show();
+    private String makeText(ArrayList<Chatroom> chatrooms){
+        StringBuilder content = new StringBuilder();
+        for (Chatroom postItem : chatrooms) {
+            content.append("Status: ").append(postItem.getName()).append("\n");
+        }
 
-                Post posts = response.body();
-
-//                textView2.append("\n code: " + posts.getSTATUS() + "\n data: " + posts.getChatrooms());
-//                textView2.append("\n\n response: " + posts.getChatrooms());
-
-                if (posts != null) {
-                    for (Chatroom postItem : posts.getChatrooms()) {
-
-                        String content = "";
-                        content += "Status: " + postItem.getName() + "\n";
-
-                        textView2.append(content);
-                    }
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-                Toast.makeText(getActivity(), "onFailure", Toast.LENGTH_SHORT).show();
-                textView2.setText(t.getMessage());
-            }
-        });
-
+        return content.toString();
     }
 
     @Override
