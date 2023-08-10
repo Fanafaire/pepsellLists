@@ -1,16 +1,25 @@
 package com.example.popselllists.ui.chatList;
 
-import android.media.Image;
+import android.graphics.Bitmap;
 
 public class ChatListItem {
-    String name, message, phone;
-//    Image image;
+    String name, message, phone, url;
+    int chatId;
 
-    public ChatListItem(String name, String message, String phone, Image image) {
+    public ChatListItem(int chatId, String name, String message, String phone, String url) {
+        this.chatId = chatId;
         this.name = name;
         this.message = message;
         this.phone = phone;
-//        this.image = image;
+        this.url = url;
+    }
+
+    public int getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(int chatId) {
+        this.chatId = chatId;
     }
 
     public String getName() {
@@ -37,11 +46,11 @@ public class ChatListItem {
         this.phone = phone;
     }
 
-//    public Image getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(Image image) {
-//        this.image = image;
-//    }
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

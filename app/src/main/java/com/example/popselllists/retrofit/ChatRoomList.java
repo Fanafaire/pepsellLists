@@ -11,16 +11,6 @@ public class ChatRoomList {
     private Long USER_ID;
     private Integer APP_ID;
     private Long DATE_TIME;
-    // Chatroom data
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public ArrayList<Chatroom> getChatrooms() {
         return chatrooms;

@@ -1,17 +1,17 @@
 package com.example.popselllists.ui.chatList;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.popselllists.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +42,6 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        holder.scrollView.setVisibility(View.VISIBLE);
-
         holder.name.setText(items.get(position).getName());
         holder.message.setText(items.get(position).getMessage());
 
@@ -52,6 +50,7 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
         else
             holder.phone.setVisibility(View.VISIBLE);
 
+        Picasso.get().load(items.get(position).getUrl()).into(holder.logo);
     }
 
     @Override
@@ -65,6 +64,7 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView name, message;
         final View phone;
+        final ImageView logo;
 
         ViewHolder(View view) {
             super(view);
@@ -72,6 +72,7 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
             message = view.findViewById(R.id.chat_list_item_last_mes);
 
             phone = view.findViewById(R.id.chat_list_item_phone);
+            logo = view.findViewById(R.id.chat_list_item_image);
         }
     }
 }

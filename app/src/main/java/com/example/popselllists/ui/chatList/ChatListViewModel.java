@@ -21,6 +21,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatListViewModel extends ViewModel {
+    private final static String BASE_URL = "https://wapp.pepsell.net/Pepsell2/";
     private final static String TYPE = "CHATROOM_LIST";
     private final static String USER_ID = "380990143524";
     private final static String APP_ID = "1";
@@ -42,7 +43,7 @@ public class ChatListViewModel extends ViewModel {
 
     private Call<ChatRoomList> makeRetrofitQuery() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://wapp.pepsell.net/Pepsell2/")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -61,7 +62,6 @@ public class ChatListViewModel extends ViewModel {
                 if (!response.isSuccessful() || response.body() == null) {
                     return;
                 }
-
                 cardsItems.setValue(setInitialData(response.body().getChatrooms()));
             }
 
@@ -76,12 +76,12 @@ public class ChatListViewModel extends ViewModel {
         return cardsItems;
     }
 
-    private ArrayList<ChatListItem> setInitialData(ArrayList<Chatroom> chatroomItems){
+    private ArrayList<ChatListItem> setInitialData(ArrayList<Chatroom> chatroomItems) {
         ArrayList<ChatListItem> chatListItem = new ArrayList<>();
 
         if (chatroomItems != null) {
             for (Chatroom item : chatroomItems) {
-                chatListItem.add(new ChatListItem(item.getName(), item.getDESCRIPTION(), item.getHotlinePhone(), null));
+                chatListItem.add(new ChatListItem(item.getID(), item.getName(), item.getDESCRIPTION(), item.getHotlinePhone(), item.getMEDIA_URI()));
             }
         }
 

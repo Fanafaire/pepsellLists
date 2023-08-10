@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 
 public class ChatListFragment extends Fragment {
 
+    private static final int REQUEST_CALL = 1;
     private FragmentChatListBinding binding;
     private View root;
     private ChatListViewModel chatListViewModel;
@@ -40,7 +42,24 @@ public class ChatListFragment extends Fragment {
         // Set RecyclerView
         setRecyclerView();
 
+        // Make image clicable
+        setPhoneButton();
+
         return root;
+    }
+
+    private void setPhoneButton() {
+        // TODO: get item correct
+//        ImageView imagePhone = root.findViewById(R.id.chat_list_item_phone);
+
+//        imagePhone.setOnClickListener(view -> makePhoneCall());
+    }
+
+
+    private void makePhoneCall() {
+        String number = "0500000000";
+        number = number.trim();
+        // TODO: call
     }
 
     private void setSearch() {
@@ -62,11 +81,11 @@ public class ChatListFragment extends Fragment {
         });
     }
 
-    private void filterList(String text){
+    private void filterList(String text) {
         ArrayList<ChatListItem> filteredList = new ArrayList<>();
         ArrayList<ChatListItem> chatListItem = chatListViewModel.getItems().getValue();
 
-        if(chatListItem != null) {
+        if (chatListItem != null) {
             for (ChatListItem chatItem : chatListItem) {
                 if (chatItem.getName().toLowerCase().contains(text.toLowerCase())) {
                     filteredList.add(chatItem);
@@ -74,7 +93,7 @@ public class ChatListFragment extends Fragment {
             }
         }
 
-        if(filteredList.isEmpty()){
+        if (filteredList.isEmpty()) {
             Toast.makeText(getContext(), "No chats found", Toast.LENGTH_SHORT).show();
         } else {
             chatListAdapter.setFilteredList(filteredList);
@@ -89,7 +108,7 @@ public class ChatListFragment extends Fragment {
 
         final Observer<ArrayList<ChatListItem>> dataObserver = items -> makeRecyclerView(liveData);
 
-        chatListViewModel.getItems().observe(this, dataObserver);
+        liveData.observe(this, dataObserver);
     }
 
     private void makeRecyclerView(LiveData<ArrayList<ChatListItem>> liveData) {

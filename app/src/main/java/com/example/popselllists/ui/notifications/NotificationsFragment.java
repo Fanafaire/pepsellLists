@@ -11,19 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.popselllists.MainActivity;
 import com.example.popselllists.R;
 import com.example.popselllists.databinding.FragmentNotificationsBinding;
-import com.example.popselllists.retrofit.Post;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -60,12 +54,12 @@ public class NotificationsFragment extends Fragment {
 
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()){
                     String myResponse = response.body().string();
 
