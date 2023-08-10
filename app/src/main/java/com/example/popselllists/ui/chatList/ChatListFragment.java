@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,13 +18,10 @@ import com.example.popselllists.R;
 import com.example.popselllists.databinding.FragmentChatListBinding;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 public class ChatListFragment extends Fragment {
 
     private FragmentChatListBinding binding;
-    private SearchView searchView;
     private View root;
     private ChatListViewModel chatListViewModel;
     private ChatListItemAdapter chatListAdapter;
@@ -35,17 +34,17 @@ public class ChatListFragment extends Fragment {
         binding = FragmentChatListBinding.inflate(inflater, container, false);
         root = binding.getRoot();
 
-        // Set RecyclerView
-        setRecyclerView();
-
         // Set search view
         setSearch();
+
+        // Set RecyclerView
+        setRecyclerView();
 
         return root;
     }
 
     private void setSearch() {
-        searchView = root.findViewById(R.id.chat_list_search_view);
+        SearchView searchView = root.findViewById(R.id.chat_list_search_view);
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -83,11 +82,20 @@ public class ChatListFragment extends Fragment {
     }
 
     private void setRecyclerView() {
+        // For not skipping layout
+        makeRecyclerView(chatListViewModel.getItems());
         // Start list initiating
-        ArrayList<ChatListItem> chatListItem = chatListViewModel.getItems().getValue();
+        LiveData<ArrayList<ChatListItem>> liveData = chatListViewModel.getItems();
+
+        final Observer<ArrayList<ChatListItem>> dataObserver = items -> makeRecyclerView(liveData);
+
+        chatListViewModel.getItems().observe(this, dataObserver);
+    }
+
+    private void makeRecyclerView(LiveData<ArrayList<ChatListItem>> liveData) {
         RecyclerView recyclerView = root.findViewById(R.id.chat_list_recycler_view);
         // Create adapter
-        chatListAdapter = new ChatListItemAdapter(getContext(), chatListItem);
+        chatListAdapter = new ChatListItemAdapter(getContext(), liveData.getValue());
         // Set adapter for list
         recyclerView.setAdapter(chatListAdapter);
     }

@@ -29,17 +29,20 @@ public class DashboardViewModel extends ViewModel {
 
     public DashboardViewModel() {
         chatrooms = new MutableLiveData<>();
+        makeRetrofitQuery();
+    }
 
+    private void makeRetrofitQuery() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://wapp.pepsell.net/Pepsell2/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        RetrofitApi jsonPlaseHolderApi = retrofit.create(RetrofitApi.class);
+        RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
 
         PostBody postBody = new PostBody(TYPE, USER_ID, APP_ID, DATE_TIME);
 
-        Call<ChatRoomList> call = jsonPlaseHolderApi.getPosts(postBody);
+        Call<ChatRoomList> call = retrofitApi.getPosts(postBody);
 
         generateCall(call);
     }
