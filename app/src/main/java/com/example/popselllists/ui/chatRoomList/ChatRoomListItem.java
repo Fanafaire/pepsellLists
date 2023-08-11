@@ -1,12 +1,10 @@
-package com.example.popselllists.ui.chatList;
+package com.example.popselllists.ui.chatRoomList;
 
-import android.graphics.Bitmap;
-
-public class ChatListItem {
+public class ChatRoomListItem {
     String name, message, phone, url;
     int chatId;
 
-    public ChatListItem(int chatId, String name, String message, String phone, String url) {
+    public ChatRoomListItem(int chatId, String name, String message, String phone, String url) {
         this.chatId = chatId;
         this.name = name;
         this.message = message;

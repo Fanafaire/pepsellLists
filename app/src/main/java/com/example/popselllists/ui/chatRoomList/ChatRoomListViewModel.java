@@ -1,4 +1,4 @@
-package com.example.popselllists.ui.chatList;
+package com.example.popselllists.ui.chatRoomList;
 
 import android.util.Log;
 
@@ -20,16 +20,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ChatListViewModel extends ViewModel {
+public class ChatRoomListViewModel extends ViewModel {
     private final static String BASE_URL = "https://wapp.pepsell.net/Pepsell2/";
     private final static String TYPE = "CHATROOM_LIST";
     private final static String USER_ID = "380990143524";
     private final static String APP_ID = "1";
     private final static long DATE_TIME = 1690819233997L;
 
-    private final MutableLiveData<ArrayList<ChatListItem>> cardsItems;
+    private final MutableLiveData<ArrayList<ChatRoomListItem>> cardsItems;
 
-    public ChatListViewModel() {
+    public ChatRoomListViewModel() {
         cardsItems = new MutableLiveData<>();
 
         makeChatroomsData();
@@ -72,19 +72,19 @@ public class ChatListViewModel extends ViewModel {
 
     }
 
-    public LiveData<ArrayList<ChatListItem>> getItems() {
+    public LiveData<ArrayList<ChatRoomListItem>> getItems() {
         return cardsItems;
     }
 
-    private ArrayList<ChatListItem> setInitialData(ArrayList<Chatroom> chatroomItems) {
-        ArrayList<ChatListItem> chatListItem = new ArrayList<>();
+    private ArrayList<ChatRoomListItem> setInitialData(ArrayList<Chatroom> chatroomItems) {
+        ArrayList<ChatRoomListItem> chatRoomListItem = new ArrayList<>();
 
         if (chatroomItems != null) {
             for (Chatroom item : chatroomItems) {
-                chatListItem.add(new ChatListItem(item.getID(), item.getName(), item.getDESCRIPTION(), item.getHotlinePhone(), item.getMEDIA_URI()));
+                chatRoomListItem.add(new ChatRoomListItem(item.getID(), item.getName(), item.getDESCRIPTION(), item.getHotlinePhone(), item.getMEDIA_URI()));
             }
         }
 
-        return chatListItem;
+        return chatRoomListItem;
     }
 }

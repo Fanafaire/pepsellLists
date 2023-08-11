@@ -1,4 +1,4 @@
-package com.example.popselllists.ui.chatList;
+package com.example.popselllists.ui.chatRoomList;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,21 +16,21 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapter.ViewHolder>  {
+public class ChatRoomListItemAdapter extends RecyclerView.Adapter<ChatRoomListItemAdapter.ViewHolder>  {
 
     Context context;
-    List<ChatListItem> items;
+    List<ChatRoomListItem> items;
     private final LayoutInflater inflater;
-    private final ChatItemRecyclerViewInterface recViewInterface;
+    private final ChatRoomItemRecyclerViewInterface recViewInterface;
 
-    public ChatListItemAdapter(Context context, List<ChatListItem> items, ChatItemRecyclerViewInterface recViewInterface) {
+    public ChatRoomListItemAdapter(Context context, List<ChatRoomListItem> items, ChatRoomItemRecyclerViewInterface recViewInterface) {
         this.context = context;
         this.items = items;
         this.inflater = LayoutInflater.from(context);
         this.recViewInterface = recViewInterface;
     }
 
-    public void setFilteredList(ArrayList<ChatListItem> filteredList) {
+    public void setFilteredList(ArrayList<ChatRoomListItem> filteredList) {
         this.items = filteredList;
         notifyDataSetChanged();
     }
@@ -68,14 +68,14 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
         final View phone;
         final ImageView logo, chat;
 
-        ViewHolder(View view, ChatItemRecyclerViewInterface recViewInterface) {
+        ViewHolder(View view, ChatRoomItemRecyclerViewInterface recViewInterface) {
             super(view);
-            name = view.findViewById(R.id.chat_list_item_name);
-            message = view.findViewById(R.id.chat_list_item_last_mes);
+            name = view.findViewById(R.id.crli_name);
+            message = view.findViewById(R.id.crli_last_mes);
 
-            phone = view.findViewById(R.id.chat_list_item_phone);
-            logo = view.findViewById(R.id.chat_list_item_image);
-            chat = view.findViewById(R.id.chat_list_item_open_chat);
+            phone = view.findViewById(R.id.crli_phone);
+            logo = view.findViewById(R.id.crli_image);
+            chat = view.findViewById(R.id.crli_open_chat);
 
             phone.setOnClickListener(new View.OnClickListener() {
                 @Override

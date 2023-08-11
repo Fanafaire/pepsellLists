@@ -1,18 +1,14 @@
-package com.example.popselllists.ui.chatList;
+package com.example.popselllists.ui.chatRoomList;
 
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CALL_PHONE;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -22,35 +18,29 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.popselllists.MainActivity;
 import com.example.popselllists.R;
-import com.example.popselllists.databinding.FragmentChatListBinding;
-import com.example.popselllists.ui.dashboard.DashboardFragment;
+import com.example.popselllists.databinding.FragmentChatRoomListBinding;
 
 import java.util.ArrayList;
 
-public class ChatListFragment extends Fragment implements ChatItemRecyclerViewInterface {
-
-    private static final int REQUEST_CALL = 1;
-    private FragmentChatListBinding binding;
+public class ChatRoomListFragment extends Fragment implements ChatRoomItemRecyclerViewInterface {
+    private FragmentChatRoomListBinding binding;
     private View root;
-    private ChatListViewModel chatListViewModel;
-    private ChatListItemAdapter chatListAdapter;
+    private ChatRoomListViewModel chatRoomListViewModel;
+    private ChatRoomListItemAdapter chatListAdapter;
     private boolean phonePermissionGranted;
-    private LiveData<ArrayList<ChatListItem>> liveData;
+    private LiveData<ArrayList<ChatRoomListItem>> liveData;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        chatListViewModel = new ViewModelProvider(this).get(ChatListViewModel.class);
+        chatRoomListViewModel = new ViewModelProvider(this).get(ChatRoomListViewModel.class);
 
-        binding = FragmentChatListBinding.inflate(inflater, container, false);
+        binding = FragmentChatRoomListBinding.inflate(inflater, container, false);
         root = binding.getRoot();
 
         // Set search view
@@ -65,20 +55,22 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
     private void makePhoneCall(String phoneNumber) {
         checkPhonePermission();
 
-        phoneNumber = phoneNumber.trim();
+        if(phonePermissionGranted){
+            phoneNumber = phoneNumber.trim();
 
-        // Getting instance of Intent with action as ACTION_CALL
-        Intent phone_intent = new Intent(Intent.ACTION_CALL);
+            // Getting instance of Intent with action as ACTION_CALL
+            Intent phone_intent = new Intent(Intent.ACTION_CALL);
 
-        // Set data of Intent through Uri by parsing phone number
-        phone_intent.setData(Uri.parse("tel:" + phoneNumber));
+            // Set data of Intent through Uri by parsing phone number
+            phone_intent.setData(Uri.parse("tel:" + phoneNumber));
 
-        // start Intent
-        startActivity(phone_intent);
+            // start Intent
+            startActivity(phone_intent);
+        }
     }
 
     private void setSearch() {
-        SearchView searchView = root.findViewById(R.id.chat_list_search_view);
+        SearchView searchView = root.findViewById(R.id.chat_room_list_search_view);
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -97,11 +89,11 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
     }
 
     private void filterList(String text) {
-        ArrayList<ChatListItem> filteredList = new ArrayList<>();
-        ArrayList<ChatListItem> chatListItem = chatListViewModel.getItems().getValue();
+        ArrayList<ChatRoomListItem> filteredList = new ArrayList<>();
+        ArrayList<ChatRoomListItem> chatRoomListItem = chatRoomListViewModel.getItems().getValue();
 
-        if (chatListItem != null) {
-            for (ChatListItem chatItem : chatListItem) {
+        if (chatRoomListItem != null) {
+            for (ChatRoomListItem chatItem : chatRoomListItem) {
                 if (chatItem.getName().toLowerCase().contains(text.toLowerCase())) {
                     filteredList.add(chatItem);
                 }
@@ -116,18 +108,18 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
     }
 
     private void setRecyclerView() {
-        makeRecyclerView(chatListViewModel.getItems());
+        makeRecyclerView(chatRoomListViewModel.getItems());
         // Get livedata
-        liveData = chatListViewModel.getItems();
+        liveData = chatRoomListViewModel.getItems();
         // Observation
-        final Observer<ArrayList<ChatListItem>> dataObserver = items -> makeRecyclerView(liveData);
+        final Observer<ArrayList<ChatRoomListItem>> dataObserver = items -> makeRecyclerView(liveData);
         liveData.observe(this, dataObserver);
     }
 
-    private void makeRecyclerView(LiveData<ArrayList<ChatListItem>> liveData) {
-        RecyclerView recyclerView = root.findViewById(R.id.chat_list_recycler_view);
+    private void makeRecyclerView(LiveData<ArrayList<ChatRoomListItem>> liveData) {
+        RecyclerView recyclerView = root.findViewById(R.id.chat_room_list_recycler_view);
         // Create adapter
-        chatListAdapter = new ChatListItemAdapter(getContext(), liveData.getValue(), this);
+        chatListAdapter = new ChatRoomListItemAdapter(getContext(), liveData.getValue(), this);
         // Set adapter for list
         recyclerView.setAdapter(chatListAdapter);
     }
@@ -169,7 +161,7 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
 
     @Override
     public void onItemClick(String code, int position) {
-        ChatListItem marker = liveData.getValue().get(position);;
+        ChatRoomListItem marker = liveData.getValue().get(position);;
         if(code.equals("phone")){
             Toast.makeText(getContext(), marker.getPhone(), Toast.LENGTH_SHORT).show();
             makePhoneCall(marker.getPhone());

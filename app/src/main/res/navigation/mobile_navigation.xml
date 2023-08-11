@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.popselllists.ui.chatList.ChatListFragment"
+        android:name="com.example.popselllists.ui.chatRoomList.ChatRoomListFragment"
         android:label="@string/title_chat_item"
-        tools:layout="@layout/fragment_chat_list" />
+        tools:layout="@layout/fragment_chat_room_list" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

@@ -2,49 +2,49 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chat_list_item"
+    android:id="@+id/chat_room_list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
     android:padding="15dp">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/cli_guide_ver1"
+        android:id="@+id/crli_guide_ver1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.12" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/cli_guide_hor"
+        android:id="@+id/crli_guide_hor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/cli_guide_ver2"
+        android:id="@+id/crli_guide_ver2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.8" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/cli_guide_ver3"
+        android:id="@+id/crli_guide_ver3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.9" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/chat_list_item_image"
+        android:id="@+id/crli_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/chat_image_descr"
         android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@id/cli_guide_ver1"
+        app:layout_constraintEnd_toStartOf="@id/crli_guide_ver1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
@@ -53,7 +53,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/chat_list_item_name"
+        android:id="@+id/crli_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -62,14 +62,14 @@
         android:maxLines="1"
         android:text="@string/chat_item_name"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/cli_guide_hor"
-        app:layout_constraintEnd_toStartOf="@id/cli_guide_ver2"
-        app:layout_constraintStart_toStartOf="@id/cli_guide_ver1"
+        app:layout_constraintBottom_toTopOf="@+id/crli_guide_hor"
+        app:layout_constraintEnd_toStartOf="@id/crli_guide_ver2"
+        app:layout_constraintStart_toStartOf="@id/crli_guide_ver1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.75" />
 
     <TextView
-        android:id="@+id/chat_list_item_last_mes"
+        android:id="@+id/crli_last_mes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -81,13 +81,13 @@
         android:textColor="@color/gray"
         android:textSize="@dimen/sub_header_text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/cli_guide_ver2"
-        app:layout_constraintStart_toStartOf="@id/cli_guide_ver1"
-        app:layout_constraintTop_toTopOf="@id/cli_guide_hor"
+        app:layout_constraintEnd_toStartOf="@id/crli_guide_ver2"
+        app:layout_constraintStart_toStartOf="@id/crli_guide_ver1"
+        app:layout_constraintTop_toTopOf="@id/crli_guide_hor"
         app:layout_constraintVertical_bias="0.25" />
 
     <ImageView
-        android:id="@+id/chat_list_item_open_chat"
+        android:id="@+id/crli_open_chat"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
@@ -95,20 +95,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/cli_guide_ver3"
+        app:layout_constraintStart_toStartOf="@id/crli_guide_ver3"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_chat_icon_48dp" />
 
     <ImageView
-        android:id="@+id/chat_list_item_phone"
+        android:id="@+id/crli_phone"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/chat_image_phone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toStartOf="@id/cli_guide_ver3"
-        app:layout_constraintStart_toEndOf="@id/cli_guide_ver2"
+        app:layout_constraintEnd_toStartOf="@id/crli_guide_ver3"
+        app:layout_constraintStart_toEndOf="@id/crli_guide_ver2"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_phone_48dp" />
 
