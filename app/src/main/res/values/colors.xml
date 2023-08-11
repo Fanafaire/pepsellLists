@@ -7,6 +7,6 @@
     <color name="gray">#939FB3</color> //for small text, icons, text on search
     <color name="item_selected">#DF1919</color>
 
-    
+    <color name="transparent">#00FFFFFF</color>
 
 </resources>

@@ -21,11 +21,13 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
     Context context;
     List<ChatListItem> items;
     private final LayoutInflater inflater;
+    private final ChatItemRecyclerViewInterface recViewInterface;
 
-    public ChatListItemAdapter(Context context, List<ChatListItem> items) {
+    public ChatListItemAdapter(Context context, List<ChatListItem> items, ChatItemRecyclerViewInterface recViewInterface) {
         this.context = context;
         this.items = items;
         this.inflater = LayoutInflater.from(context);
+        this.recViewInterface = recViewInterface;
     }
 
     public void setFilteredList(ArrayList<ChatListItem> filteredList) {
@@ -37,7 +39,7 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.chat_list_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, recViewInterface);
     }
 
     @Override
@@ -64,15 +66,42 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView name, message;
         final View phone;
-        final ImageView logo;
+        final ImageView logo, chat;
 
-        ViewHolder(View view) {
+        ViewHolder(View view, ChatItemRecyclerViewInterface recViewInterface) {
             super(view);
             name = view.findViewById(R.id.chat_list_item_name);
             message = view.findViewById(R.id.chat_list_item_last_mes);
 
             phone = view.findViewById(R.id.chat_list_item_phone);
             logo = view.findViewById(R.id.chat_list_item_image);
+            chat = view.findViewById(R.id.chat_list_item_open_chat);
+
+            phone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recViewInterface != null){
+                        int pos = getAdapterPosition();
+
+                        if(pos != RecyclerView.NO_POSITION){
+                            recViewInterface.onItemClick("phone", pos);
+                        }
+                    }
+                }
+            });
+
+            chat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recViewInterface != null){
+                        int pos = getAdapterPosition();
+
+                        if(pos != RecyclerView.NO_POSITION){
+                            recViewInterface.onItemClick("chat", pos);
+                        }
+                    }
+                }
+            });
         }
     }
 }
