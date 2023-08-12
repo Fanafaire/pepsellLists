@@ -117,6 +117,17 @@
                 app:srcCompat="@drawable/ic_like_24dp" />
 
             <ImageView
+                android:id="@+id/cli_card_like_filled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/cli_card_like"
+                app:layout_constraintRight_toRightOf="@id/cli_card_like"
+                app:layout_constraintStart_toStartOf="@id/cli_card_like"
+                app:layout_constraintTop_toTopOf="@id/cli_card_like"
+                app:srcCompat="@drawable/ic_like_filled_24dp" />
+
+            <ImageView
                 android:id="@+id/cli_card_chat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

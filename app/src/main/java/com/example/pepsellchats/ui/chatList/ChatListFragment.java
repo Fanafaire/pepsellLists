@@ -47,7 +47,6 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
         makeRecyclerView(chatListViewModel.getChats());
         // Get livedata
         liveData = chatListViewModel.getChats();
-//        Log.d("F setRecyclerView: ", Integer.toString(liveData.getValue().size()));
         // Observation
         final Observer<ArrayList<ChatListItem>> dataObserver = items -> makeRecyclerView(liveData);
         liveData.observe(this, dataObserver);
@@ -68,7 +67,7 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
     }
 
     @Override
-    public void onItemClick(String code, int position) {
+    public void onItemClick(String code, int position, String additionalText) {
         ChatListItem marker = liveData.getValue().get(position);
         if (code.equals("chat")) {
             Toast.makeText(getContext(), Integer.toString(position), Toast.LENGTH_SHORT).show();
@@ -78,23 +77,27 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
 //            startActivity(intent);
 
         } else if(code.equals("share")) {
-            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-//
-            // type of the content to be shared
-            sharingIntent.setType("text/plain");
-
-            // Body of the content
-            String shareBody = "Your Body Here";
-
-            // subject of the content. you can share anything
-            String shareSubject = "Your Subject Here";
-
-            // passing body of the content
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-
-            // passing subject of the content
-            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
-            startActivity(Intent.createChooser(sharingIntent, "Share using"));
+            makeShare(additionalText);
         }
+    }
+
+    private void makeShare(String additionalText) {
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+
+        // type of the content to be shared
+        sharingIntent.setType("text/plain");
+
+        // Body of the content
+        String shareBody = additionalText;
+
+        // subject of the content. you can share anything
+        String shareSubject = "Your Subject Here";
+
+        // passing body of the content
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+
+        // passing subject of the content
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
+        startActivity(Intent.createChooser(sharingIntent, "Share using"));
     }
 }

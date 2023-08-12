@@ -29,30 +29,4 @@ public class ChatListActivity extends AppCompatActivity {
                     .commitNow();
         }
     }
-
-
-
-//        switch (item.getItemId()) {
-//            case R.id.cli_card_share:
-//
-//                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-//
-//                // type of the content to be shared
-//                sharingIntent.setType("text/plain");
-//
-//                // Body of the content
-//                String shareBody = "Your Body Here";
-//
-//                // subject of the content. you can share anything
-//                String shareSubject = "Your Subject Here";
-//
-//                // passing body of the content
-//                sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-//
-//                // passing subject of the content
-//                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
-//                startActivity(Intent.createChooser(sharingIntent, "Share using"));
-//                break;
-//        }
-
 }

@@ -63,8 +63,9 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView userName, message, time;
+        final TextView userName, message, time, details;
         final ImageView logo, media, chat, share;
+        final ImageView like, likeFilled;
 
         ViewHolder(View view, ChatItemRecyclerViewInterface chatItemRecyclerViewInterface) {
             super(view);
@@ -77,29 +78,59 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
 
             chat = view.findViewById(R.id.cli_card_chat);
             share = view.findViewById(R.id.cli_card_share);
+            details = view.findViewById(R.id.cli_card_details);
 
-            chat.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(chatItemRecyclerViewInterface != null){
-                        int pos = getAdapterPosition();
+            like = view.findViewById(R.id.cli_card_like);
+            likeFilled = view.findViewById(R.id.cli_card_like_filled);
 
-                        if(pos != RecyclerView.NO_POSITION){
-                            chatItemRecyclerViewInterface.onItemClick("chat", pos);
-                        }
+            chat.setOnClickListener(view15 -> {
+                if(chatItemRecyclerViewInterface != null){
+                    int pos = getAdapterPosition();
+
+                    if(pos != RecyclerView.NO_POSITION){
+                        chatItemRecyclerViewInterface.onItemClick("chat", pos, null);
+                    }
+                }
+            });
+            details.setOnClickListener(view14 -> {
+                if(chatItemRecyclerViewInterface != null){
+                    int pos = getAdapterPosition();
+
+                    if(pos != RecyclerView.NO_POSITION){
+                        chatItemRecyclerViewInterface.onItemClick("chat", pos, null);
                     }
                 }
             });
 
-            share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(chatItemRecyclerViewInterface != null){
-                        int pos = getAdapterPosition();
+            share.setOnClickListener(view13 -> {
+                if(chatItemRecyclerViewInterface != null){
+                    int pos = getAdapterPosition();
 
-                        if(pos != RecyclerView.NO_POSITION){
-                            chatItemRecyclerViewInterface.onItemClick("share", pos);
-                        }
+                    if(pos != RecyclerView.NO_POSITION){
+                        chatItemRecyclerViewInterface.onItemClick("share", pos,
+                                userName.getText().toString() + ": " + message.getText().toString());
+                    }
+                }
+            });
+
+            like.setOnClickListener(view12 -> {
+                if(chatItemRecyclerViewInterface != null){
+                    int pos = getAdapterPosition();
+
+                    if(pos != RecyclerView.NO_POSITION){
+                        like.setVisibility(View.INVISIBLE);
+                        likeFilled.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
+            likeFilled.setOnClickListener(view1 -> {
+                if(chatItemRecyclerViewInterface != null){
+                    int pos = getAdapterPosition();
+
+                    if(pos != RecyclerView.NO_POSITION){
+                        like.setVisibility(View.VISIBLE);
+                        likeFilled.setVisibility(View.INVISIBLE);
                     }
                 }
             });
