@@ -1,9 +1,5 @@
 <resources>
-    <string name="app_name">popsellLists</string>
-    <string name="title_chat_room_item">Chat Room</string>
-    <string name="title_chat_item">Chat</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">pepsellLists</string>
 
     // chat-room item
     <string name="chat_room_item_name">Chat Name</string>

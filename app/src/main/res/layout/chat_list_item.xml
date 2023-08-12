@@ -14,11 +14,13 @@
         android:id="@+id/cli_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/chat_item_user_name"
-        android:textAllCaps="true"
-        android:textStyle="bold"
+        android:layout_marginStart="8dp"
         android:ellipsize="end"
         android:maxLines="1"
+        android:text="@string/chat_item_user_name"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/cli_card_logo"
@@ -30,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         app:cardBackgroundColor="@color/dark_gray"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="15dp"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,22 +43,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/cli_card_image"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cli_card_image_card"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:contentDescription="@string/chat_item_image"
+                android:layout_height="160sp"
                 android:visibility="visible"
+                app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/image_card" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/cli_card_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/chat_item_image"
+                    android:scaleType="centerCrop"
+                    tools:srcCompat="@color/search" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/cli_card_chat_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:ellipsize="end"
@@ -67,17 +77,17 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@id/cli_card_details"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cli_card_image" />
+                app:layout_constraintTop_toBottomOf="@id/cli_card_image_card" />
 
             <TextView
                 android:id="@+id/cli_card_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/chat_item_image"
                 android:text="@string/chat_item_details"
                 android:textColor="@color/item_selected"
                 android:textSize="@dimen/small_text"
-                android:contentDescription="@string/chat_item_image"
                 app:layout_constraintBottom_toBottomOf="@id/cli_card_chat_name"
                 app:layout_constraintEnd_toStartOf="@id/cli_card_arrow"
                 app:layout_constraintTop_toTopOf="@id/cli_card_chat_name" />
@@ -86,7 +96,7 @@
                 android:id="@+id/cli_card_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="10dp"
                 android:contentDescription="@string/chat_item_image"
                 app:layout_constraintBottom_toBottomOf="@id/cli_card_details"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -98,14 +108,13 @@
                 android:id="@+id/cli_card_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="24dp"
                 android:contentDescription="@string/chat_item_image"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/cli_card_chat_name"
                 app:layout_constraintTop_toBottomOf="@id/cli_card_chat_name"
-                app:srcCompat="@drawable/ic_like_17dp" />
+                app:srcCompat="@drawable/ic_like_24dp" />
 
             <ImageView
                 android:id="@+id/cli_card_chat"
@@ -116,7 +125,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/cli_card_like"
                 app:layout_constraintStart_toEndOf="@id/cli_card_like"
                 app:layout_constraintTop_toTopOf="@id/cli_card_like"
-                app:srcCompat="@drawable/ic_chat_16dp" />
+                app:srcCompat="@drawable/ic_chat_22dp" />
 
             <ImageView
                 android:id="@+id/cli_card_share"
@@ -127,18 +136,17 @@
                 app:layout_constraintBottom_toBottomOf="@id/cli_card_like"
                 app:layout_constraintStart_toEndOf="@id/cli_card_chat"
                 app:layout_constraintTop_toTopOf="@id/cli_card_like"
-                app:srcCompat="@drawable/ic_share_16dp" />
+                app:srcCompat="@drawable/ic_share_20dp" />
 
             <TextView
                 android:id="@+id/cli_card_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:text="@string/chat_item_date"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/sub_header_text"
                 app:layout_constraintBottom_toBottomOf="@id/cli_card_like"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/cli_card_arrow"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/cli_card_like" />
@@ -150,7 +158,7 @@
         android:id="@+id/cli_card_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="10dp"
         app:cardBackgroundColor="@color/transparent"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toTopOf="@id/cli_card"
@@ -165,8 +173,6 @@
             android:contentDescription="@string/chat_item_image"
             android:padding="2dp"
             app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-            app:strokeColor="@color/white"
-            app:strokeWidth="2dp"
             tools:srcCompat="@tools:sample/avatars" />
     </androidx.cardview.widget.CardView>
 

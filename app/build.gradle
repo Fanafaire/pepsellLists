@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.popselllists'
+    namespace 'com.example.pepsellchats'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.popselllists"
+        applicationId "com.example.pepsellchats"
         minSdk 24
         targetSdk 33
         versionCode 1
