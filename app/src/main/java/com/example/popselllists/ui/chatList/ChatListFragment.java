@@ -1,4 +1,4 @@
-package com.example.popselllists.ui.dashboard;
+package com.example.popselllists.ui.chatList;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,26 +13,26 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.popselllists.R;
-import com.example.popselllists.databinding.FragmentDashboardBinding;
+import com.example.popselllists.databinding.FragmentChatListBinding;
 import com.example.popselllists.retrofit.Chatroom;
 
 import java.util.ArrayList;
 
-public class DashboardFragment extends Fragment {
+public class ChatListFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentChatListBinding binding;
     private TextView textView2;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        ChatListViewModel chatListViewModel =
+                new ViewModelProvider(this).get(ChatListViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentChatListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        textView2 = root.findViewById(R.id.text_dashboard);
-        updateTextView(dashboardViewModel.getChatrooms());
+//        textView2 = root.findViewById(R.id.text_dashboard);
+//        updateTextView(chatListViewModel.getChatrooms());
 
         return root;
     }

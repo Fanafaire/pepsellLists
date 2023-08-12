@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="background">#101018</color>
     <color name="search">#1D2935</color>
+    <color name="dark_gray">#171E28</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#939FB3</color> //for small text, icons, text on search
     <color name="item_selected">#DF1919</color>

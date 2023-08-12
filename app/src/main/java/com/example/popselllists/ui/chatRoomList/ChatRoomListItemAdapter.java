@@ -38,7 +38,7 @@ public class ChatRoomListItemAdapter extends RecyclerView.Adapter<ChatRoomListIt
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.chat_list_item, parent, false);
+        View view = inflater.inflate(R.layout.chat_room_list_item, parent, false);
         return new ViewHolder(view, recViewInterface);
     }
 
@@ -74,7 +74,7 @@ public class ChatRoomListItemAdapter extends RecyclerView.Adapter<ChatRoomListIt
             message = view.findViewById(R.id.crli_last_mes);
 
             phone = view.findViewById(R.id.crli_phone);
-            logo = view.findViewById(R.id.crli_image);
+            logo = view.findViewById(R.id.cli_logo);
             chat = view.findViewById(R.id.crli_open_chat);
 
             phone.setOnClickListener(new View.OnClickListener() {

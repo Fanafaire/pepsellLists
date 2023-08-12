@@ -16,7 +16,7 @@
         android:layout_margin="10dp"
         android:background="@drawable/search_background"
         android:iconifiedByDefault="false"
-        android:queryHint="@string/chat_image_search_hint"
+        android:queryHint="@string/chat_room_image_search_hint"
         android:searchIcon="@drawable/ic_search_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

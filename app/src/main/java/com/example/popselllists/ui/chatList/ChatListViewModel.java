@@ -1,4 +1,4 @@
-package com.example.popselllists.ui.dashboard;
+package com.example.popselllists.ui.chatList;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -18,7 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class DashboardViewModel extends ViewModel {
+public class ChatListViewModel extends ViewModel {
 
     private final static String TYPE = "CHATROOM_LIST";
     private final static String USER_ID = "380990143524";
@@ -27,7 +27,7 @@ public class DashboardViewModel extends ViewModel {
 
     private final MutableLiveData<ArrayList<Chatroom>> chatrooms;
 
-    public DashboardViewModel() {
+    public ChatListViewModel() {
         chatrooms = new MutableLiveData<>();
         makeRetrofitQuery();
     }

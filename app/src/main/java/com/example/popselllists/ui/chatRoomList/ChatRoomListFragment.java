@@ -168,7 +168,7 @@ public class ChatRoomListFragment extends Fragment implements ChatRoomItemRecycl
         } else if (code.equals("chat")) {
             Toast.makeText(getContext(), Integer.toString(marker.getChatId()), Toast.LENGTH_SHORT).show();
 
-//            Intent intent = new Intent(getActivity(), DashboardFragment.class);
+//            Intent intent = new Intent(getActivity(), ChatListFragment.class);
 //            intent.putExtra("ChatID", marker.getChatId());
         }
     }
