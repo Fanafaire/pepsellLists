@@ -1,17 +1,17 @@
 package com.example.pepsellchats.retrofit.chatList;
 
-public class ChatListPostBody {
+public class ChatListGETBody {
     private String TYPE;
     private String USER_ID;
     private String APP_ID;
     private long DATE_TIME;
-    private int CHATROOM_ID;
+    private long CHATROOM_ID;
     private long START_PERIOD;
     private long FINISH_PERIOD;
     private long LIMIT;
 
-    public ChatListPostBody(String TYPE, String USER_ID, String APP_ID, long DATE_TIME,
-                            int CHATROOM_ID, long START_PERIOD, long FINISH_PERIOD, long LIMIT) {
+    public ChatListGETBody(String TYPE, String USER_ID, String APP_ID, long DATE_TIME,
+                           long CHATROOM_ID, long START_PERIOD, long FINISH_PERIOD, long LIMIT) {
         this.TYPE = TYPE;
         this.USER_ID = USER_ID;
         this.APP_ID = APP_ID;
@@ -54,11 +54,11 @@ public class ChatListPostBody {
         this.DATE_TIME = DATE_TIME;
     }
 
-    public int getCHATROOM_ID() {
+    public long getCHATROOM_ID() {
         return CHATROOM_ID;
     }
 
-    public void setCHATROOM_ID(int CHATROOM_ID) {
+    public void setCHATROOM_ID(long CHATROOM_ID) {
         this.CHATROOM_ID = CHATROOM_ID;
     }
 

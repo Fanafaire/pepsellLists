@@ -44,6 +44,7 @@ public class ChatRoomListItemAdapter extends RecyclerView.Adapter<ChatRoomListIt
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         holder.name.setText(items.get(position).getName());
         holder.message.setText(items.get(position).getMessage());
 
@@ -74,31 +75,25 @@ public class ChatRoomListItemAdapter extends RecyclerView.Adapter<ChatRoomListIt
             message = view.findViewById(R.id.crli_last_mes);
 
             phone = view.findViewById(R.id.crli_phone);
-            logo = view.findViewById(R.id.cli_logo);
+            logo = view.findViewById(R.id.chat_cli_logo);
             chat = view.findViewById(R.id.crli_open_chat);
 
-            phone.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(recViewInterface != null){
-                        int pos = getAdapterPosition();
+            phone.setOnClickListener(view1 -> {
+                if(recViewInterface != null){
+                    int pos = getAdapterPosition();
 
-                        if(pos != RecyclerView.NO_POSITION){
-                            recViewInterface.onItemClick("phone", pos);
-                        }
+                    if(pos != RecyclerView.NO_POSITION){
+                        recViewInterface.onItemClick("phone", pos);
                     }
                 }
             });
 
-            chat.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(recViewInterface != null){
-                        int pos = getAdapterPosition();
+            chat.setOnClickListener(view12 -> {
+                if(recViewInterface != null){
+                    int pos = getAdapterPosition();
 
-                        if(pos != RecyclerView.NO_POSITION){
-                            recViewInterface.onItemClick("chat", pos);
-                        }
+                    if(pos != RecyclerView.NO_POSITION){
+                        recViewInterface.onItemClick("chat", pos);
                     }
                 }
             });

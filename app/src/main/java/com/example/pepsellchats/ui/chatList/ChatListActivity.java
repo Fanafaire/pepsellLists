@@ -1,6 +1,7 @@
 package com.example.pepsellchats.ui.chatList;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,7 +20,7 @@ public class ChatListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int chatId = getIntent().getIntExtra("ChatID", 0);
+        long chatId = getIntent().getLongExtra("ChatID", 0);
         ChatListViewModel viewModel = new ViewModelProvider(this).get(ChatListViewModel.class);
         viewModel.setChatId(chatId);
 

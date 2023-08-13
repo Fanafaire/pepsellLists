@@ -2,9 +2,9 @@ package com.example.pepsellchats.ui.chatRoomList;
 
 public class ChatRoomListItem {
     String name, message, phone, url;
-    int chatId;
+    long chatId;
 
-    public ChatRoomListItem(int chatId, String name, String message, String phone, String url) {
+    public ChatRoomListItem(long chatId, String name, String message, String phone, String url) {
         this.chatId = chatId;
         this.name = name;
         this.message = message;
@@ -12,11 +12,11 @@ public class ChatRoomListItem {
         this.url = url;
     }
 
-    public int getChatId() {
+    public long getChatId() {
         return chatId;
     }
 
-    public void setChatId(int chatId) {
+    public void setChatId(long chatId) {
         this.chatId = chatId;
     }
 

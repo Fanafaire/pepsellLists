@@ -3,13 +3,13 @@ package com.example.pepsellchats.retrofit.chatRoomList;
 public class Chatroom {
     private String name;
     private String hotlinePhone;
-    private int ID;
+    private long ID;
     private String DESCRIPTION;
     private String MEDIA_URI;
     private int UNREAD_MESSAGE_COUNT;
     private String LAST_MESSAGE_DATE;
 
-    public Chatroom(String name, String hotlinePhone, int ID, String DESCRIPTION, String MEDIA_URI, int UNREAD_MESSAGE_COUNT, String LAST_MESSAGE_DATE) {
+    public Chatroom(String name, String hotlinePhone, long ID, String DESCRIPTION, String MEDIA_URI, int UNREAD_MESSAGE_COUNT, String LAST_MESSAGE_DATE) {
         this.name = name;
         this.hotlinePhone = hotlinePhone;
         this.ID = ID;
@@ -35,11 +35,11 @@ public class Chatroom {
         this.hotlinePhone = hotlinePhone;
     }
 
-    public int getID() {
+    public long getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(long ID) {
         this.ID = ID;
     }
 

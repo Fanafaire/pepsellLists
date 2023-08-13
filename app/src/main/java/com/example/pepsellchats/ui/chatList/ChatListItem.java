@@ -1,11 +1,12 @@
 package com.example.pepsellchats.ui.chatList;
 
 public class ChatListItem {
-    private int userId, chatId;
+    private long userId, chatId, chatRoomId;
     private String userName, userLogoURI, chatDescription, chatMediaURI, chatLastMesDate;
 
-    public ChatListItem(int userId, int chatId, String userName, String userLogoURI,
+    public ChatListItem(long chatRoomId, long userId, long chatId, String userName, String userLogoURI,
                         String chatDescription, String chatMediaURI, String chatLastMesDate) {
+        this.chatRoomId = chatRoomId;
         this.userId = userId;
         this.chatId = chatId;
         this.userName = userName;
@@ -15,19 +16,27 @@ public class ChatListItem {
         this.chatLastMesDate = chatLastMesDate;
     }
 
-    public int getUserId() {
+    public long getChatRoomId() {
+        return chatRoomId;
+    }
+
+    public void setChatRoomId(long chatRoomId) {
+        this.chatRoomId = chatRoomId;
+    }
+
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
-    public int getChatId() {
+    public long getChatId() {
         return chatId;
     }
 
-    public void setChatId(int chatId) {
+    public void setChatId(long chatId) {
         this.chatId = chatId;
     }
 

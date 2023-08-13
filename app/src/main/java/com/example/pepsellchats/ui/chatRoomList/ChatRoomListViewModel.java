@@ -1,7 +1,5 @@
 package com.example.pepsellchats.ui.chatRoomList;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,10 +7,11 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.pepsellchats.retrofit.chatRoomList.ChatRoomList;
 import com.example.pepsellchats.retrofit.chatRoomList.Chatroom;
-import com.example.pepsellchats.retrofit.chatRoomList.ChatRoomListPostBody;
+import com.example.pepsellchats.retrofit.chatRoomList.ChatRoomListGETBody;
 import com.example.pepsellchats.retrofit.RetrofitApi;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,7 +24,6 @@ public class ChatRoomListViewModel extends ViewModel {
     private final static String TYPE = "CHATROOM_LIST";
     private final static String USER_ID = "380990143524";
     private final static String APP_ID = "1";
-    private final static long DATE_TIME = 1690819233997L;
 
     private final MutableLiveData<ArrayList<ChatRoomListItem>> cardsItems;
 
@@ -49,16 +47,16 @@ public class ChatRoomListViewModel extends ViewModel {
 
         RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
 
-        ChatRoomListPostBody chatRoomListPostBody = new ChatRoomListPostBody(TYPE, USER_ID, APP_ID, DATE_TIME);
+        ChatRoomListGETBody chatRoomListGETBody = new ChatRoomListGETBody(TYPE, USER_ID, APP_ID, new Date().getTime());
 
-        return retrofitApi.getChatRoomList(chatRoomListPostBody);
+        return retrofitApi.getChatRoomList(chatRoomListGETBody);
     }
 
     private void generateCall(Call<ChatRoomList> call) {
-        Log.d("generateCall: ", "in");
         call.enqueue(new Callback<ChatRoomList>() {
             @Override
-            public void onResponse(@NonNull Call<ChatRoomList> call, @NonNull Response<ChatRoomList> response) {
+            public void onResponse(@NonNull Call<ChatRoomList> call,
+                                   @NonNull Response<ChatRoomList> response) {
                 if (!response.isSuccessful() || response.body() == null) {
                     return;
                 }
@@ -81,7 +79,8 @@ public class ChatRoomListViewModel extends ViewModel {
 
         if (chatroomItems != null) {
             for (Chatroom item : chatroomItems) {
-                chatRoomListItem.add(new ChatRoomListItem(item.getID(), item.getName(), item.getDESCRIPTION(), item.getHotlinePhone(), item.getMEDIA_URI()));
+                chatRoomListItem.add(new ChatRoomListItem(item.getID(), item.getName(),
+                        item.getDESCRIPTION(), item.getHotlinePhone(), item.getMEDIA_URI()));
             }
         }
 

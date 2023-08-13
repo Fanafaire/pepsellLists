@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".ui.chat.ChatFragment">
+
+    <include
+        android:id="@+id/chat_rec_header"
+        layout="@layout/chat_recycler_view_header"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/chat_add_message_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chat_rec_header"
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@layout/chat_item"
+        app:stackFromEnd="false"
+        app:reverseLayout="true"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/chat_add_message_card"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@color/search"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@id/chat_nav_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/chat_amc_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/chat_amc_pencil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_pencil_13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/chat_amc_write"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/transparent"
+                android:hint="Написати..."
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="@dimen/header_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/chat_amc_send"
+                app:layout_constraintStart_toEndOf="@id/chat_amc_pencil"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/chat_amc_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_send_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chat_nav_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:context=".ui.chat.ChatFragment">
+
+        <ImageView
+            android:id="@+id/chat_bot_nav_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_plus_17dp"
+            app:layout_constraintBottom_toTopOf="@id/chat_bot_nav_plus_text"
+            app:layout_constraintEnd_toStartOf="@id/chat_bot_nav_image"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/chat_bot_nav_plus_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Прикріпити"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/very_small_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/chat_bot_nav_plus"
+            app:layout_constraintStart_toStartOf="@id/chat_bot_nav_plus" />
+
+        <ImageView
+            android:id="@+id/chat_bot_nav_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_image_17dp"
+            app:layout_constraintBottom_toBottomOf="@id/chat_bot_nav_plus"
+            app:layout_constraintEnd_toStartOf="@id/chat_bot_nav_video"
+            app:layout_constraintStart_toEndOf="@id/chat_bot_nav_plus"
+            app:layout_constraintTop_toTopOf="@id/chat_bot_nav_plus" />
+
+        <TextView
+            android:id="@+id/chat_bot_nav_image_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Фото"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/very_small_text"
+            app:layout_constraintEnd_toEndOf="@id/chat_bot_nav_image"
+            app:layout_constraintStart_toStartOf="@id/chat_bot_nav_image"
+            app:layout_constraintTop_toTopOf="@id/chat_bot_nav_plus_text" />
+
+        <ImageView
+            android:id="@+id/chat_bot_nav_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_video_22dp"
+            app:layout_constraintBottom_toBottomOf="@id/chat_bot_nav_plus"
+            app:layout_constraintEnd_toStartOf="@id/chat_bot_nav_scan"
+            app:layout_constraintStart_toEndOf="@id/chat_bot_nav_image"
+            app:layout_constraintTop_toTopOf="@id/chat_bot_nav_plus" />
+
+        <TextView
+            android:id="@+id/chat_bot_nav_video_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Відео"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/very_small_text"
+            app:layout_constraintBottom_toBottomOf="@id/chat_bot_nav_plus_text"
+            app:layout_constraintEnd_toEndOf="@id/chat_bot_nav_video"
+            app:layout_constraintStart_toStartOf="@id/chat_bot_nav_video"
+            app:layout_constraintTop_toTopOf="@id/chat_bot_nav_plus_text" />
+
+        <ImageView
+            android:id="@+id/chat_bot_nav_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_scan_15dp"
+            app:layout_constraintBottom_toBottomOf="@id/chat_bot_nav_plus"
+            app:layout_constraintEnd_toStartOf="@id/chat_bot_nav_voice"
+            app:layout_constraintStart_toEndOf="@id/chat_bot_nav_video"
+            app:layout_constraintTop_toTopOf="@id/chat_bot_nav_plus" />
+
+        <TextView
+            android:id="@+id/chat_bot_nav_scan_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сканувати"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/very_small_text"
+            app:layout_constraintBottom_toBottomOf="@id/chat_bot_nav_plus_text"
+            app:layout_constraintEnd_toEndOf="@id/chat_bot_nav_scan"
+            app:layout_constraintStart_toStartOf="@id/chat_bot_nav_scan"
+            app:layout_constraintTop_toTopOf="@id/chat_bot_nav_plus_text" />
+
+        <ImageView
+            android:id="@+id/chat_bot_nav_voice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_voice_13dp"
+            app:layout_constraintBottom_toBottomOf="@id/chat_bot_nav_plus"
+            app:layout_constraintEnd_toStartOf="@id/chat_bot_nav_back"
+            app:layout_constraintStart_toEndOf="@id/chat_bot_nav_scan"
+            app:layout_constraintTop_toTopOf="@id/chat_bot_nav_plus" />
+
+        <TextView
+            android:id="@+id/chat_bot_nav_voice_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Голосове"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/very_small_text"
+            app:layout_constraintBottom_toBottomOf="@id/chat_bot_nav_plus_text"
+            app:layout_constraintEnd_toEndOf="@id/chat_bot_nav_voice"
+            app:layout_constraintStart_toStartOf="@id/chat_bot_nav_voice"
+            app:layout_constraintTop_toTopOf="@id/chat_bot_nav_plus_text" />
+
+        <ImageView
+            android:id="@+id/chat_bot_nav_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_simple_arrow_9dp"
+            app:layout_constraintBottom_toBottomOf="@id/chat_bot_nav_plus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/chat_bot_nav_voice"
+            app:layout_constraintTop_toTopOf="@id/chat_bot_nav_plus" />
+
+        <TextView
+            android:id="@+id/chat_bot_nav_back_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Назад"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/very_small_text"
+            app:layout_constraintBottom_toBottomOf="@id/chat_bot_nav_plus_text"
+            app:layout_constraintEnd_toEndOf="@id/chat_bot_nav_back"
+            app:layout_constraintStart_toStartOf="@id/chat_bot_nav_back"
+            app:layout_constraintTop_toTopOf="@id/chat_bot_nav_plus_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

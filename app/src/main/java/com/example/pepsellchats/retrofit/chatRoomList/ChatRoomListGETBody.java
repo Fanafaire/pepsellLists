@@ -1,12 +1,12 @@
 package com.example.pepsellchats.retrofit.chatRoomList;
 
-public class ChatRoomListPostBody {
+public class ChatRoomListGETBody {
     private String TYPE;
     private String USER_ID;
     private String APP_ID;
     private long DATE_TIME;
 
-    public ChatRoomListPostBody(String TYPE, String USER_ID, String APP_ID, long DATE_TIME) {
+    public ChatRoomListGETBody(String TYPE, String USER_ID, String APP_ID, long DATE_TIME) {
         this.TYPE = TYPE;
         this.USER_ID = USER_ID;
         this.APP_ID = APP_ID;

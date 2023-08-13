@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pepsellchats.R;
 import com.example.pepsellchats.databinding.FragmentChatListBinding;
+import com.example.pepsellchats.ui.chat.ChatActivity;
 
 import java.util.ArrayList;
 
@@ -70,12 +71,19 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
     public void onItemClick(String code, int position, String additionalText) {
         ChatListItem marker = liveData.getValue().get(position);
         if (code.equals("chat")) {
-            Toast.makeText(getContext(), Integer.toString(position), Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(getActivity(), ChatListActivity.class);
-//            intent.putExtra("ChatID", marker.getChatId());
-//
-//            startActivity(intent);
+            Intent intent = new Intent(getActivity(), ChatActivity.class);
+            // Top card
+            intent.putExtra("Card_userName", marker.getUserName());
+            intent.putExtra("Card_message", marker.getChatDescription());
+            intent.putExtra("Card_time", marker.getChatLastMesDate());
+            intent.putExtra("Card_logo", marker.getUserLogoURI());
+            intent.putExtra("Card_media", marker.getChatMediaURI());
 
+            // For GET
+            intent.putExtra("chatRoomId", marker.getChatRoomId());
+            intent.putExtra("chatId", marker.getChatId());
+
+            startActivity(intent);
         } else if(code.equals("share")) {
             makeShare(additionalText);
         }

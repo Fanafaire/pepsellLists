@@ -69,19 +69,19 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
 
         ViewHolder(View view, ChatItemRecyclerViewInterface chatItemRecyclerViewInterface) {
             super(view);
-            userName = view.findViewById(R.id.cli_name);
-            logo = view.findViewById(R.id.cli_logo);
+            userName = view.findViewById(R.id.chat_cli_name);
+            logo = view.findViewById(R.id.chat_cli_logo);
 
-            message = view.findViewById(R.id.cli_card_chat_name);
-            time = view.findViewById(R.id.cli_card_time);
-            media = view.findViewById(R.id.cli_card_image);
+            message = view.findViewById(R.id.chat_cli_card_chat_name);
+            time = view.findViewById(R.id.chat_cli_card_time);
+            media = view.findViewById(R.id.chat_cli_card_image);
 
-            chat = view.findViewById(R.id.cli_card_chat);
-            share = view.findViewById(R.id.cli_card_share);
-            details = view.findViewById(R.id.cli_card_details);
+            chat = view.findViewById(R.id.chat_cli_card_chat);
+            share = view.findViewById(R.id.chat_cli_card_share);
+            details = view.findViewById(R.id.chat_cli_card_details);
 
-            like = view.findViewById(R.id.cli_card_like);
-            likeFilled = view.findViewById(R.id.cli_card_like_filled);
+            like = view.findViewById(R.id.chat_cli_card_like);
+            likeFilled = view.findViewById(R.id.chat_cli_card_like_filled);
 
             chat.setOnClickListener(view15 -> {
                 if(chatItemRecyclerViewInterface != null){
