@@ -14,9 +14,6 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pepsellchats.R;
-import com.example.pepsellchats.ui.chatList.ChatItemRecyclerViewInterface;
-import com.example.pepsellchats.ui.chatList.ChatListItem;
-import com.example.pepsellchats.ui.chatList.ChatListItemAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.sql.Timestamp;
@@ -29,21 +26,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     Context context;
     List<ChatItem> items;
     private final LayoutInflater inflater;
-    private final MessageRecyclerViewInterface recViewInterface;
 
-    public MessageAdapter(Context context, List<ChatItem> items,
-                               MessageRecyclerViewInterface messageRecyclerViewInterface) {
+    public MessageAdapter(Context context, List<ChatItem> items) {
         this.context = context;
         this.items = items;
         this.inflater = LayoutInflater.from(context);
-        this.recViewInterface = messageRecyclerViewInterface;
     }
 
     @NonNull
     @Override
     public MessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.chat_item, parent, false);
-        return new MessageAdapter.ViewHolder(view, recViewInterface);
+        return new MessageAdapter.ViewHolder(view);
     }
 
     @Override
@@ -102,7 +96,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         final CardView userCard, mCard;
         ConstraintLayout layout;
 
-        ViewHolder(View view, MessageRecyclerViewInterface messageRecyclerViewInterface) {
+        ViewHolder(View view) {
             super(view);
             layout = view.findViewById(R.id.chat_recycler_layout);
 
@@ -114,16 +108,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             mImage = view.findViewById(R.id.crmc_image);
             mTime = view.findViewById(R.id.crmc_time);
             mCard = view.findViewById(R.id.cr_message_card);
-
-//            chat.setOnClickListener(view15 -> {
-//                if(messageRecyclerViewInterface != null){
-//                    int pos = getAdapterPosition();
-//
-//                    if(pos != RecyclerView.NO_POSITION){
-//                        messageRecyclerViewInterface.onScroll(0, 0);
-//                    }
-//                }
-//            });
         }
     }
 }

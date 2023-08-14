@@ -1,7 +1,9 @@
 package com.example.pepsellchats.retrofit;
 
-import com.example.pepsellchats.retrofit.chat.ChatGETBody;
-import com.example.pepsellchats.retrofit.chat.ChatGeneral;
+import com.example.pepsellchats.retrofit.chat.get.ChatGETBody;
+import com.example.pepsellchats.retrofit.chat.get.ChatGeneral;
+import com.example.pepsellchats.retrofit.chat.post.ChatPOSTBody;
+import com.example.pepsellchats.retrofit.chat.post.ChatPOSTReturn;
 import com.example.pepsellchats.retrofit.chatList.ChatListGeneral;
 import com.example.pepsellchats.retrofit.chatList.ChatListGETBody;
 import com.example.pepsellchats.retrofit.chatRoomList.ChatRoomList;
@@ -22,5 +24,5 @@ public interface RetrofitApi {
     Call<ChatGeneral> getChatMessages(@Body ChatGETBody body);
 
     @POST("api")
-    Call<ChatGeneral> postChatMessage(@Body ChatGETBody body);
+    Call<ChatPOSTReturn> postChatMessage(@Body ChatPOSTBody body);
 }

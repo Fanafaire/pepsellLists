@@ -1,16 +1,18 @@
 package com.example.pepsellchats.ui.chat;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.pepsellchats.retrofit.RetrofitApi;
-import com.example.pepsellchats.retrofit.chat.ChatGETBody;
-import com.example.pepsellchats.retrofit.chat.ChatGeneral;
-import com.example.pepsellchats.retrofit.chat.Message;
+import com.example.pepsellchats.retrofit.chat.get.ChatGETBody;
+import com.example.pepsellchats.retrofit.chat.get.ChatGeneral;
+import com.example.pepsellchats.retrofit.chat.get.Message;
 import com.example.pepsellchats.ui.chatList.ChatListItem;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ChatViewModel extends ViewModel {
+public class ChatViewModel extends AndroidViewModel {
     // For get/post body
     private final static String TYPE = "CHAT_HISTORY";
     private final static String USER_ID = "380990143524";
@@ -31,13 +33,14 @@ public class ChatViewModel extends ViewModel {
     private final static long FINISH_PERIOD = 1690819233997L;
     private final static int LIMIT = 30;
     // Ids for get body
-    private long chatRoomId, chatId;
+    private static long chatRoomId, chatId;
     // For card
     private String card_userName, card_message, card_time, card_logo, card_media;
     // Result liveData
     private final MutableLiveData<ArrayList<ChatItem>> messages;
 
-    public ChatViewModel() {
+    public ChatViewModel(@NonNull Application application) {
+        super(application);
         messages = new MutableLiveData<>();
         makeRetrofitQuery();
     }
@@ -79,6 +82,7 @@ public class ChatViewModel extends ViewModel {
 
         if (messagesList != null) {
             for(int i = messagesList.size() - 1; i >= 0; i--){
+                Log.d("ChatListViewModel setInitialData: ", Long.toString(chatRoomId) + " ^ " + messagesList.get(i).getText());
                 chatItemList.add(new ChatItem(accUserId, messagesList.get(i).getFromUser().getId(),
                         messagesList.get(i).getFromUser().getName(), messagesList.get(i).getFromUser().getLogo(),
                         messagesList.get(i).getMediaURI(), messagesList.get(i).getText(), messagesList.get(i).getMessageTime()));
@@ -96,9 +100,18 @@ public class ChatViewModel extends ViewModel {
      * For pass chat room id from activity
      */
     void setChatIds(long chatRoomId, long chatId){
-        this.chatRoomId = chatRoomId;
-        this.chatId = chatId;
+        ChatViewModel.chatRoomId = chatRoomId;
+        ChatViewModel.chatId = chatId;
+        makeRetrofitQuery();
         Log.d("setChatId: ", Long.toString(chatRoomId));
+    }
+
+    public long getChatRoomId() {
+        return chatRoomId;
+    }
+
+    public long getChatId() {
+        return chatId;
     }
 
     /**

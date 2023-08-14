@@ -9,7 +9,8 @@ public class ChatItem {
     private String mText;
     private long time;
 
-    public ChatItem(long accUserId, long userId, String userName, String userLogo, String mImage, String mText, long time) {
+    public ChatItem(long accUserId, long userId, String userName, String userLogo,
+                    String mImage, String mText, long time) {
         this.accUserId = accUserId;
         this.userId = userId;
         this.userName = userName;

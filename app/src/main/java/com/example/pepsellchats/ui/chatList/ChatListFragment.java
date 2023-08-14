@@ -2,6 +2,7 @@ package com.example.pepsellchats.ui.chatList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,7 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
     }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        chatListViewModel =
-                new ViewModelProvider(this).get(ChatListViewModel.class);
+        chatListViewModel = new ViewModelProvider(requireActivity()).get(ChatListViewModel.class);
 
         binding = FragmentChatListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -45,7 +45,7 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
 
     private void setRecyclerView() {
         // Fixed alert on console: skipped layout, works correct without this line
-        makeRecyclerView(chatListViewModel.getChats());
+//        makeRecyclerView(chatListViewModel.getChats());
         // Get livedata
         liveData = chatListViewModel.getChats();
         // Observation
@@ -54,6 +54,7 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
     }
 
     private void makeRecyclerView(LiveData<ArrayList<ChatListItem>> liveData) {
+        Log.d("ChatListFragment makeRecyclerView: ", "test");
         RecyclerView recyclerView = binding.getRoot().findViewById(R.id.chat_list_recycler_view);
         // Create adapter
         ChatListItemAdapter chatListAdapter = new ChatListItemAdapter(getContext(), liveData.getValue(), this);
@@ -82,6 +83,9 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
             // For GET
             intent.putExtra("chatRoomId", marker.getChatRoomId());
             intent.putExtra("chatId", marker.getChatId());
+
+            Log.d("ChatListFragment setChatRoomId: ", Long.toString(marker.getChatRoomId()) +
+                    " * " + Long.toString(marker.getChatId()));
 
             startActivity(intent);
         } else if(code.equals("share")) {

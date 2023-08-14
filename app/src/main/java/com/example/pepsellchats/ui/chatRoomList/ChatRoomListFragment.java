@@ -175,7 +175,8 @@ public class ChatRoomListFragment extends Fragment implements ChatRoomItemRecycl
             makePhoneCall(marker.getPhone());
         } else if (code.equals("chat")) {
             Intent intent = new Intent(getActivity(), ChatListActivity.class);
-            intent.putExtra("ChatID", marker.getChatId());
+            intent.putExtra("ChatRoomId", marker.getChatRoomId());
+            Log.d("ChatRoomListFragment chatroomid onClick: ", Long.toString(marker.getChatRoomId()));
 
             startActivity(intent);
         }

@@ -1,6 +1,7 @@
 package com.example.pepsellchats.ui.chatList;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,14 +21,14 @@ public class ChatListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        long chatId = getIntent().getLongExtra("ChatID", 0);
-        ChatListViewModel viewModel = new ViewModelProvider(this).get(ChatListViewModel.class);
-        viewModel.setChatId(chatId);
-
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, ChatListFragment.newInstance())
                     .commitNow();
         }
+
+        long chatRoomId = getIntent().getLongExtra("ChatRoomId", 0);
+        ChatListViewModel viewModel = new ViewModelProvider(this).get(ChatListViewModel.class);
+        viewModel.setChatRoomId(chatRoomId);
     }
 }

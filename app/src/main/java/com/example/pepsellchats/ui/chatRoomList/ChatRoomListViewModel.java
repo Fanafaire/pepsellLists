@@ -1,5 +1,7 @@
 package com.example.pepsellchats.ui.chatRoomList;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -79,6 +81,7 @@ public class ChatRoomListViewModel extends ViewModel {
 
         if (chatroomItems != null) {
             for (Chatroom item : chatroomItems) {
+                Log.d("ChatRoomListViewModel chatroomid: ", Long.toString(item.getID()));
                 chatRoomListItem.add(new ChatRoomListItem(item.getID(), item.getName(),
                         item.getDESCRIPTION(), item.getHotlinePhone(), item.getMEDIA_URI()));
             }

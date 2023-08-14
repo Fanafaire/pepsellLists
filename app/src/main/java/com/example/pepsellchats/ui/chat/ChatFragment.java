@@ -1,11 +1,12 @@
 package com.example.pepsellchats.ui.chat;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,19 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pepsellchats.R;
 import com.example.pepsellchats.databinding.FragmentChatBinding;
-import com.example.pepsellchats.ui.chatList.ChatListItem;
 
 import java.util.ArrayList;
 
-public class ChatFragment extends Fragment implements MessageRecyclerViewInterface {
-
+public class ChatFragment extends Fragment{
     private FragmentChatBinding binding;
     private ChatViewModel chatViewModel;
     private LiveData<ArrayList<ChatItem>> liveData;
-    // post
-    private EditText messageTextView;
-    private ImageView sendTextIm;
-    private ChatListItem cardInfo;
 
     public static ChatFragment newInstance() {
         return new ChatFragment();
@@ -36,30 +31,27 @@ public class ChatFragment extends Fragment implements MessageRecyclerViewInterfa
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        chatViewModel =
-                new ViewModelProvider(this).get(ChatViewModel.class);
+        chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
 
         binding = FragmentChatBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        messageTextView = root.findViewById(R.id.chat_amc_write);
-        sendTextIm = root.findViewById(R.id.chat_amc_send);
-        cardInfo = chatViewModel.getCardInfo();
-
-        sendTextIm.setOnClickListener((v-> sendMessage()));
-
         // Set RecyclerView
         setRecyclerView();
 
+        long text = chatViewModel.getChatRoomId();
+        long text2 = chatViewModel.getChatId();
+        Log.d("YYYYYYYYYYYYYYYYYYYYYY: ", Long.toString(text) + " ^ " + Long.toString(text2));
+
+        TextView mText = root.findViewById(R.id.chat_amc_write);
+        mText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), mText.getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return root;
-    }
-
-    private void sendMessage() {
-        String message = messageTextView.getText().toString().trim();
-        if(message.isEmpty())
-            return;
-
-
     }
 
     private void setRecyclerView() {
@@ -73,17 +65,14 @@ public class ChatFragment extends Fragment implements MessageRecyclerViewInterfa
     }
 
     private void makeRecyclerView(LiveData<ArrayList<ChatItem>> liveData) {
+        Log.d("ChatFragment makeRecyclerView: ", "test");
         RecyclerView recyclerView = binding.getRoot().findViewById(R.id.chat_recycler_view);
         // Create adapter
-        MessageAdapter messageAdapter = new MessageAdapter(getContext(), liveData.getValue(), this);
+        MessageAdapter messageAdapter = new MessageAdapter(getContext(), liveData.getValue());
         // Set adapter for list
         recyclerView.setAdapter(messageAdapter);
     }
 
-    @Override
-    public void onScroll(int size, int position) {
-
-    }
 
     @Override
     public void onDestroyView() {

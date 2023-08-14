@@ -1,28 +1,24 @@
-package com.example.pepsellchats.retrofit.chat;
+package com.example.pepsellchats.retrofit.chat.post;
 
-public class ChatGETBody {
+public class ChatPOSTBody {
     private String TYPE;
     private String USER_ID;
     private String APP_ID;
     private long DATE_TIME;
     private long CHATROOM_ID;
     private long CHAT_ID;
-    private long START_PERIOD;
-    private long END_PERIOD;
-    private int LIMIT;
+    private MessageTextForPost MESSAGE;
 
-    public ChatGETBody(String TYPE, String USER_ID, String APP_ID, long DATE_TIME,
-                       long CHATROOM_ID, long CHAT_ID,
-                       long START_PERIOD, long END_PERIOD, int LIMIT) {
+    public ChatPOSTBody(String TYPE, String USER_ID, String APP_ID,
+                        long DATE_TIME, long CHATROOM_ID, long CHAT_ID,
+                        MessageTextForPost MESSAGE) {
         this.TYPE = TYPE;
         this.USER_ID = USER_ID;
         this.APP_ID = APP_ID;
         this.DATE_TIME = DATE_TIME;
         this.CHATROOM_ID = CHATROOM_ID;
         this.CHAT_ID = CHAT_ID;
-        this.START_PERIOD = START_PERIOD;
-        this.END_PERIOD = END_PERIOD;
-        this.LIMIT = LIMIT;
+        this.MESSAGE = MESSAGE;
     }
 
     public String getTYPE() {
@@ -73,27 +69,12 @@ public class ChatGETBody {
         this.CHAT_ID = CHAT_ID;
     }
 
-    public long getSTART_PERIOD() {
-        return START_PERIOD;
+    public MessageTextForPost getMESSAGE() {
+        return MESSAGE;
     }
 
-    public void setSTART_PERIOD(long START_PERIOD) {
-        this.START_PERIOD = START_PERIOD;
-    }
-
-    public long getEND_PERIOD() {
-        return END_PERIOD;
-    }
-
-    public void setEND_PERIOD(long END_PERIOD) {
-        this.END_PERIOD = END_PERIOD;
-    }
-
-    public int getLIMIT() {
-        return LIMIT;
-    }
-
-    public void setLIMIT(int LIMIT) {
-        this.LIMIT = LIMIT;
+    public void setMESSAGE(MessageTextForPost MESSAGE) {
+        this.MESSAGE = MESSAGE;
     }
 }
+

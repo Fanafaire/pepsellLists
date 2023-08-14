@@ -2,22 +2,22 @@ package com.example.pepsellchats.ui.chatRoomList;
 
 public class ChatRoomListItem {
     String name, message, phone, url;
-    long chatId;
+    long chatRoomId;
 
-    public ChatRoomListItem(long chatId, String name, String message, String phone, String url) {
-        this.chatId = chatId;
+    public ChatRoomListItem(long chatRoomId, String name, String message, String phone, String url) {
+        this.chatRoomId = chatRoomId;
         this.name = name;
         this.message = message;
         this.phone = phone;
         this.url = url;
     }
 
-    public long getChatId() {
-        return chatId;
+    public long getChatRoomId() {
+        return chatRoomId;
     }
 
-    public void setChatId(long chatId) {
-        this.chatId = chatId;
+    public void setChatRoomId(long chatRoomId) {
+        this.chatRoomId = chatRoomId;
     }
 
     public String getName() {

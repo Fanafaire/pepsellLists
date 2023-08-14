@@ -1,4 +1,4 @@
-package com.example.pepsellchats.retrofit.chat;
+package com.example.pepsellchats.retrofit.chat.get;
 
 public class MessageUser {
     private long id;
