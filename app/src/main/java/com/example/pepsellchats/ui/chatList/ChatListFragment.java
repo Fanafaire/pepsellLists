@@ -5,8 +5,8 @@ import static androidx.core.content.PermissionChecker.checkSelfPermission;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +26,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,23 +34,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pepsellchats.R;
 import com.example.pepsellchats.databinding.FragmentChatListBinding;
 import com.example.pepsellchats.retrofit.BodyCallTypes;
-import com.example.pepsellchats.retrofit.chat.post.ChatQueryExecutor;
+import com.example.pepsellchats.retrofit.BodyConstants;
+import com.example.pepsellchats.retrofit.chatList.post.ChatListPOSTReturn;
+import com.example.pepsellchats.retrofit.chatList.post.ChatListQueryExecutor;
 import com.example.pepsellchats.ui.chat.ChatActivity;
 import com.example.pepsellchats.ui.chatList.recyclerView.ChatItemRecyclerViewInterface;
 import com.example.pepsellchats.ui.chatList.recyclerView.ChatListItem;
 import com.example.pepsellchats.ui.chatList.recyclerView.ChatListItemAdapter;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class ChatListFragment extends Fragment implements ChatItemRecyclerViewInterface {
-
     private FragmentChatListBinding binding;
     private ChatListViewModel chatListViewModel;
     private LiveData<ArrayList<ChatListItem>> liveData;
     private View viewPopup;
     private boolean storagePermissionGranted;
+    private Uri fileUri;
 
     public static ChatListFragment newInstance() {
         return new ChatListFragment();
@@ -65,12 +72,12 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
         setRecyclerView();
 
         // Create chat block
-        createTextChat();
+        createChat();
 
         return root;
     }
 
-    private void createTextChat() {
+    private void createChat() {
         ImageView createChat = binding.getRoot().findViewById(R.id.chat_list_create_chat);
         createChat.setOnClickListener(view -> openSendPopup());
     }
@@ -78,57 +85,153 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
     private void openSendPopup() {
         // Get layouts
         ConstraintLayout parent = binding.getRoot().findViewWithTag("chatListFragmentLayout");
-        viewPopup = View.inflate(getContext(), R.layout.send_chat_popup, null);
+        viewPopup = View.inflate(getContext(), R.layout.image_preview, null);
+
+        // Hide close image button and image name set select
+        viewPopup.findViewById(R.id.image_popup_image).setVisibility(View.GONE);
+        viewPopup.findViewById(R.id.image_popup_close).setVisibility(View.GONE);
+        TextView imageMes = viewPopup.findViewById(R.id.image_popup_image_name);
+        imageMes.setText(R.string.no_image);
 
         // Call popup
         PopupWindow popupWindow = new PopupWindow(
                 viewPopup,
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT,
                 true
         );
         popupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
 
-        // Set listener to load image
-        ImageView imagePopupLoad = viewPopup.findViewById(R.id.send_chat_get_image);
-        imagePopupLoad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        // Set listener to sendImage button
+        ImageView sendImage = viewPopup.findViewById(R.id.chat_bot_nav_image);
+        sendImage.setOnClickListener(view1 -> {
+//            checkStoragePermission();
+
+            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                // only for gingerbread and newer versionsdd
                 checkStoragePermission();
-                if (storagePermissionGranted)
-                    mGetContent.launch("image/*");
+            }
+
+            if (storagePermissionGranted && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                mGetContent.launch("image/*");
+            else if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                mGetContent.launch("image/*");
             }
         });
 
         // Set listener to popup send image (button)
-        ImageView imagePopupSend = viewPopup.findViewById(R.id.send_chat_send);
-        imagePopupSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText editTextData = viewPopup.findViewById(R.id.send_chat_text);
-                String text = editTextData.getText().toString().trim();
+        ImageView sendChatImage = viewPopup.findViewById(R.id.chat_amc_send);
 
-                if(!text.isEmpty()){
-                    long messageTime = new Date().getTime();
-                    sendImageMessage(null, messageTime, text);
+        sendChatImage.setOnClickListener(view -> {
+            EditText editTextData = viewPopup.findViewById(R.id.chat_amc_write);
+            String text = editTextData.getText().toString().trim();
 
-                    popupWindow.dismiss();
-                } else {
-                    // todo
-                }
+            ImageView imagePopup = viewPopup.findViewById(R.id.image_popup_image);
+            Uri sendUri = (imagePopup.getVisibility() == View.GONE) ? null : fileUri;
+
+            if(!text.equals("") || sendUri != null){
+                long messageTime = new Date().getTime();
+                sendNewChat(sendUri, messageTime, text);
+
+                popupWindow.dismiss();
             }
         });
     }
 
-    private void sendImageMessage(Uri uri, long messageTime, String text) {
+    private void sendNewChat(Uri uri, long messageTime, String text) {
+        // Post image message to server
+        ChatListQueryExecutor executor = new ChatListQueryExecutor();
 
+        LiveData<ChatListPOSTReturn> response;
+        if(uri == null){
+            response = executor.getPOSRRespond(
+                    BodyCallTypes.CREATE_TEXT_CHAT.toString(),
+                    chatListViewModel.getChatRoomId(),
+                    0,
+                    text,
+                    messageTime
+            );
+        } else {
+            executor.setFile(uri);
+            response = executor.getPOSRRespond(
+                    BodyCallTypes.CREATE_MEDIA_CHAT.toString(),
+                    chatListViewModel.getChatRoomId(),
+                    0,
+                    text,
+                    messageTime
+            );
+        }
+
+        // live data observer
+        String finalUriString = (uri != null) ? uri.toString() : null;
+        final Observer<ChatListPOSTReturn> dataObserver = items -> responseObserverBody(
+                text,
+                messageTime,
+                finalUriString,
+                response.getValue().getCHAT_ID());
+        response.observe(getViewLifecycleOwner(), dataObserver);
+    }
+
+    private void responseObserverBody(String text, long messageTime, String uriString, long chatId) {
+        // Set time
+        Timestamp ts = new Timestamp(messageTime);
+        Date date = new Date(ts.getTime());
+        String strDate = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(date);
+
+
+
+        ArrayList<ChatListItem> chatList = liveData.getValue();
+        ChatListItem chatListItem = new ChatListItem(
+                chatListViewModel.getChatRoomId(),
+                BodyConstants.USER_ID,
+                chatId,
+                "Микола",
+                "https://www.shutterstock.com/image-vector/portrait-beautiful-woman-halfturn-avatar-600w-1828327529.jpg",
+                text,
+                uriString,
+                strDate
+        );
+
+        if (chatList != null) {
+            chatList.size();
+            chatList.add(0, chatListItem);
+
+//            chatList.add(chatListItem);
+
+            MutableLiveData<ArrayList<ChatListItem>> newMutableData = new MutableLiveData<>();
+            newMutableData.setValue(chatList);
+
+            liveData = newMutableData;
+            setRecyclerView();
+        }
     }
 
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
             uri -> {
-                // Set image
-                ImageView imagePopup = viewPopup.findViewById(R.id.send_chat_image);
-                Picasso.get().load(uri).into(imagePopup);
+                if(uri != null){
+                    fileUri = uri;
+                    // Set image
+                    ImageView imagePopup = viewPopup.findViewById(R.id.image_popup_image);
+                    imagePopup.setVisibility(View.VISIBLE);
+
+                    // Set image name
+                    TextView imageText = viewPopup.findViewById(R.id.image_popup_image_name);
+                    imageText.setText(new File(uri.getPath()).getName());
+
+                    Picasso.get().load(uri).into(imagePopup);
+
+                    // Show closeImage button
+                    ImageView close = viewPopup.findViewById(R.id.image_popup_close);
+                    close.setVisibility(View.VISIBLE);
+
+                    // Listener for close image
+                    close.setOnClickListener(view1 -> {
+                        TextView imageMes = viewPopup.findViewById(R.id.image_popup_image_name);
+                        imageMes.setText(R.string.no_image);
+                        viewPopup.findViewById(R.id.image_popup_image).setVisibility(View.GONE);
+                        viewPopup.findViewById(R.id.image_popup_close).setVisibility(View.GONE);
+                    });
+                }
             });
 
     private void setRecyclerView() {
@@ -142,7 +245,6 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
     }
 
     private void makeRecyclerView(LiveData<ArrayList<ChatListItem>> liveData) {
-        Log.d("ChatListFragment makeRecyclerView: ", "test");
         RecyclerView recyclerView = binding.getRoot().findViewById(R.id.chat_list_recycler_view);
         // Create adapter
         ChatListItemAdapter chatListAdapter = new ChatListItemAdapter(getContext(), liveData.getValue(), this);
@@ -172,9 +274,6 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
             intent.putExtra("chatRoomId", marker.getChatRoomId());
             intent.putExtra("chatId", marker.getChatId());
 
-            Log.d("ChatListFragment setChatRoomId: ", Long.toString(marker.getChatRoomId()) +
-                    " * " + Long.toString(marker.getChatId()));
-
             startActivity(intent);
         } else if(code.equals("share")) {
             makeShare(additionalText);
@@ -187,14 +286,11 @@ public class ChatListFragment extends Fragment implements ChatItemRecyclerViewIn
         // type of the content to be shared
         sharingIntent.setType("text/plain");
 
-        // Body of the content
-        String shareBody = additionalText;
-
         // subject of the content. you can share anything
         String shareSubject = "Your Subject Here";
 
-        // passing body of the content
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+        // passing body of the content (additionalText is body of the content)
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, additionalText);
 
         // passing subject of the content
         sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubject);

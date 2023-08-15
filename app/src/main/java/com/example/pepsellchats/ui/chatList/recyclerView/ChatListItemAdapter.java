@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pepsellchats.R;
@@ -47,11 +48,12 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
 
         String uri = items.get(position).getChatMediaURI();
         if(uri != null){
-            holder.media.setVisibility(View.VISIBLE);
+            holder.mediaCard.setVisibility(View.VISIBLE);
             Picasso.get().load(items.get(position).getChatMediaURI()).into(holder.media);
+            holder.message.setPadding(0,0,0,0);
         } else {
-            holder.media.setVisibility(View.GONE);
-//            holder.message.setLayoutParams();
+            holder.message.setPadding(0,8,0,0);
+            holder.mediaCard.setVisibility(View.GONE);
         }
     }
 
@@ -67,6 +69,7 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
         final TextView userName, message, time, details;
         final ImageView logo, media, chat, share;
         final ImageView like, likeFilled;
+        final CardView mediaCard;
 
         ViewHolder(View view, ChatItemRecyclerViewInterface chatItemRecyclerViewInterface) {
             super(view);
@@ -76,6 +79,7 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
             message = view.findViewById(R.id.chat_cli_card_chat_name);
             time = view.findViewById(R.id.chat_cli_card_time);
             media = view.findViewById(R.id.chat_cli_card_image);
+            mediaCard = view.findViewById(R.id.chat_cli_card_image_card);
 
             chat = view.findViewById(R.id.chat_cli_card_chat);
             share = view.findViewById(R.id.chat_cli_card_share);

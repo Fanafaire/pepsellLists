@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/chat_cli_card_pin"
                 android:src="@drawable/ic_pin_14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -95,6 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
+                android:contentDescription="@string/like_filled"
                 app:layout_constraintBottom_toBottomOf="@id/chat_cli_card_like"
                 app:layout_constraintRight_toRightOf="@id/chat_cli_card_like"
                 app:layout_constraintStart_toStartOf="@id/chat_cli_card_like"

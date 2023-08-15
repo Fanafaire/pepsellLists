@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pepsellchats.R;
+import com.example.pepsellchats.retrofit.BodyConstants;
 import com.squareup.picasso.Picasso;
 
 import java.sql.Timestamp;
@@ -48,7 +49,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         // Set time
         Timestamp ts = new Timestamp(items.get(position).getTime());
         Date date = new Date(ts.getTime());
-        String strDate = new SimpleDateFormat("hh:mm", Locale.getDefault()).format(date);
+        String strDate = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
         holder.mTime.setText(strDate);
 
         // Hide/show image and text
@@ -68,7 +69,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         }
 
         // Hide user card if there is message from account user anf move it to right
-        if(accUserId == userId){
+        if(BodyConstants.USER_ID == userId){
             holder.userCard.setVisibility(View.INVISIBLE);
 
             // Change bias to show card on right

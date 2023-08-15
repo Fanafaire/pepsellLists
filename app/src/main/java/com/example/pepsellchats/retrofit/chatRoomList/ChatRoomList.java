@@ -3,7 +3,6 @@ package com.example.pepsellchats.retrofit.chatRoomList;
 import java.util.ArrayList;
 
 public class ChatRoomList {
-    // General data
     private ArrayList<Chatroom> chatrooms;
     private String STATUS;
     private String ERROR;

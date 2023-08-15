@@ -1,5 +1,6 @@
 package com.example.pepsellchats.retrofit.chatList.post;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -8,8 +9,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.pepsellchats.retrofit.BodyCallTypes;
 import com.example.pepsellchats.retrofit.BodyConstants;
 import com.example.pepsellchats.retrofit.RetrofitApi;
-import com.example.pepsellchats.retrofit.chat.post.ChatPOSTBody;
-import com.example.pepsellchats.retrofit.chat.post.MessageTextForPost;
+
+import java.io.File;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,18 +19,18 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatListQueryExecutor {
-    private final MutableLiveData<Long> respondMessage;
+    private final MutableLiveData<ChatListPOSTReturn> respondMessage;
     private RetrofitApi retrofitApi;
+    private File file;
 
     public ChatListQueryExecutor() {
         initiateRetrofit();
         respondMessage = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Long> getPOSRRespond(String postType, long chatRoomId, long chatId, String messageText, long time){
+    public MutableLiveData<ChatListPOSTReturn> getPOSRRespond(String postType, long chatRoomId, long chatId, String messageText, long time){
 
         ChatListChatPOSTBody chatListChatPOSTBody = new ChatListChatPOSTBody(chatId, chatRoomId, messageText);
-
         ChatListPOSTBody chatListPOSTBody = new ChatListPOSTBody(
                 postType,
                 Long.toString(BodyConstants.USER_ID),
@@ -41,7 +42,9 @@ public class ChatListQueryExecutor {
 
         if(BodyCallTypes.CREATE_TEXT_CHAT.toString().equals(postType)){
             call = retrofitApi.postTextChat(chatListPOSTBody);
-        } else if (BodyCallTypes.CREATE_MEDIA_CHAT.toString().equals(postType)){}
+        } else if (BodyCallTypes.CREATE_MEDIA_CHAT.toString().equals(postType)){
+            call = retrofitApi.postImageChat(file, chatListPOSTBody);
+        }
 
         if(call != null)
             generateCall(call);
@@ -57,7 +60,7 @@ public class ChatListQueryExecutor {
                     return;
                 }
 
-                respondMessage.setValue(response.body().getCHAT_ID());
+                respondMessage.setValue(response.body());
                 Log.d("POST return: ", response.body().getSTATUS());
             }
 
@@ -75,5 +78,9 @@ public class ChatListQueryExecutor {
                 .build();
 
         retrofitApi = retrofit.create(RetrofitApi.class);
+    }
+
+    public void setFile(Uri imageUri){
+        file = new File(imageUri.getPath());
     }
 }

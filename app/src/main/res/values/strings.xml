@@ -16,4 +16,32 @@
     <string name="chat_item_details">Детальніше</string>
     <string name="chat_item_date">10.07.23 o 12:33</string>
     <string name="chat_image_search_hint">dПошук</string>
+
+
+    // Chat item layout
+    <string name="no_image">No image</string>
+    <string name="chat_item_desc">Chat item Message will show here Message will show here Chat item Message will show here Message will show hereChat item Message will show here Message will show here</string>
+    <string name="chat_item_time">12:33</string>
+    <string name="chat_item_userName">Адміністратор</string>
+    <string name="chat_cli_card_pin">Header Pin</string>
+    <string name="like_filled">Like Filled</string>
+    <string name="chat_list_create_chat">Image Button</string>
+    <string name="image_popup_image_name">imageName</string>
+    <string name="image_popup_image">Image</string>
+    <string name="image_popup_close">Close</string>
+    <string name="chat_amc_pencil">Pencil</string>
+    <string name="chat_amc_write">Написати...</string>
+    <string name="chat_bot_nav_plus_text">Прикріпити</string>
+    <string name="chat_bot_nav_image_text">Фото</string>
+    <string name="chat_bot_nav_video_text">Відео</string>
+    <string name="chat_bot_nav_scan_text">Сканувати</string>
+    <string name="chat_bot_nav_voice_text">Голосове</string>
+    <string name="chat_bot_nav_back_text">Назад</string>
+    <string name="chat_amc_send">Send</string>
+    <string name="chat_bot_nav_plus">Plus</string>
+    <string name="chat_bot_nav_image">Image</string>
+    <string name="chat_bot_nav_video">Video</string>
+    <string name="chat_bot_nav_scan">Scan</string>
+    <string name="chat_bot_nav_voice">Voice</string>
+    <string name="chat_bot_nav_back">Back</string>
 </resources>

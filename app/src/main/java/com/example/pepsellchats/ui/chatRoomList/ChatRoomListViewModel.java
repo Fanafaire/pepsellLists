@@ -83,7 +83,6 @@ public class ChatRoomListViewModel extends ViewModel {
 
         if (chatroomItems != null) {
             for (Chatroom item : chatroomItems) {
-                Log.d("ChatRoomListViewModel chatroomid: ", Long.toString(item.getID()));
                 chatRoomListItem.add(new ChatRoomListItem(
                         item.getID(),
                         item.getName(),

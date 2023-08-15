@@ -4,8 +4,8 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +49,6 @@ public class ChatFragment extends Fragment {
     private ChatViewModel chatViewModel;
     private LiveData<ArrayList<ChatItem>> liveData;
     private boolean storagePermissionGranted;
-    private static ChatListItem cardInfo;
 
     public static ChatFragment newInstance() {
         return new ChatFragment();
@@ -77,7 +76,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void setHeaderCard() {
-        cardInfo = chatViewModel.getCardInfo();
+        ChatListItem cardInfo = chatViewModel.getCardInfo();
 
         TextView chatName = binding.getRoot().findViewById(R.id.chat_cli_card_chat_name);
         chatName.setText(cardInfo.getChatDescription());
@@ -91,68 +90,76 @@ public class ChatFragment extends Fragment {
         ImageView userLogo = binding.getRoot().findViewById(R.id.chat_cli_logo);
         Picasso.get().load(cardInfo.getUserLogoURI()).into(userLogo);
 
-        Log.d("setHeaderCard: ", "" + cardInfo.getChatDescription());
-
-//        TextView image = binding.getRoot().findViewById(R.id.chat_cli_card_image_card);
-//        Picasso.get().load(cardInfo.getChatMediaURI()).into(image);
+        ImageView image = binding.getRoot().findViewById(R.id.chat_cli_card_image);
+        Picasso.get().load(cardInfo.getChatMediaURI()).into(image);
 
     }
 
     private void setImageSend() {
         ImageView sendImage = binding.getRoot().findViewById(R.id.chat_bot_nav_image);
         sendImage.setOnClickListener(view -> {
-            checkStoragePermission();
 
-            if (storagePermissionGranted)
+            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                // only for gingerbread and newer versionsdd
+                checkStoragePermission();
+            }
+
+            if (storagePermissionGranted && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
                 mGetContent.launch("image/*");
+            else if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                mGetContent.launch("image/*");
+            }
         });
     }
 
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
             uri -> {
-                // Get layouts
-                ConstraintLayout parent = binding.getRoot().findViewWithTag("chatFragmentLayout");
-                View view = View.inflate(getContext(), R.layout.image_preview, null);
+                if(uri != null){
+                    // Get layouts
+                    ConstraintLayout parent = binding.getRoot().findViewWithTag("chatFragmentLayout");
+                    View view = View.inflate(getContext(), R.layout.image_preview, null);
 
-                // Set text
-                TextView mText = binding.getRoot().findViewById(R.id.chat_amc_write);
-                TextView popupText = view.findViewById(R.id.chat_amc_write);
-                popupText.setText(mText.getText().toString());
+                    // Set text
+                    TextView mText = binding.getRoot().findViewById(R.id.chat_amc_write);
+                    TextView popupText = view.findViewById(R.id.chat_amc_write);
+                    popupText.setText(mText.getText().toString());
 
-                // Call popup
-                PopupWindow popupWindow = new PopupWindow(
-                        view,
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        true
-                );
-                popupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
+                    // Call popup
+                    PopupWindow popupWindow = new PopupWindow(
+                            view,
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            true
+                    );
+                    popupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
 
-                // Set image
-                ImageView imagePopup = view.findViewById(R.id.image_popup_image);
-                Picasso.get().load(uri).resize(parent.getWidth(), 0).into(imagePopup);
+                    // Set image
+                    ImageView imagePopup = view.findViewById(R.id.image_popup_image);
 
-                // Set image name (current is a path)
-                TextView imageText = view.findViewById(R.id.image_popup_image_name);
-                imageText.setText(new File(uri.getPath()).getName());
+                    Picasso.get().load(uri).resize(parent.getWidth(), 0).into(imagePopup);
 
-                // Set listener to popup send image (button)
-                ImageView imagePopupSend = view.findViewById(R.id.chat_amc_send);
-                imagePopupSend.setOnClickListener(view12 -> {
-                    long messageTime = new Date().getTime();
-                    String popupTextLoad = popupText.getText().toString().trim();
-                    sendImageMessage(uri, messageTime, popupTextLoad);
-                    popupText.setText("");
+                    // Set image name
+                    TextView imageText = view.findViewById(R.id.image_popup_image_name);
+                    imageText.setText(new File(uri.getPath()).getName());
 
-                    popupWindow.dismiss();
-                });
+                    // Set listener to popup send image (button)
+                    ImageView imagePopupSend = view.findViewById(R.id.chat_amc_send);
+                    imagePopupSend.setOnClickListener(view12 -> {
+                        long messageTime = new Date().getTime();
+                        String popupTextLoad = popupText.getText().toString().trim();
+                        sendImageMessage(uri, messageTime, popupTextLoad);
+                        popupText.setText("");
 
-                // Set listener to close button
-                ImageView closeIm = view.findViewById(R.id.image_popup_close);
-                closeIm.setOnClickListener(view1 -> {
-                    mText.setText(popupText.getText().toString());
-                    popupWindow.dismiss();
-                });
+                        popupWindow.dismiss();
+                    });
+
+                    // Set listener to close button
+                    ImageView closeIm = view.findViewById(R.id.image_popup_close);
+                    closeIm.setOnClickListener(view1 -> {
+                        mText.setText(popupText.getText().toString());
+                        popupWindow.dismiss();
+                    });
+                }
             });
 
     private void sendImageMessage(Uri uri, long messageTime, String loadText) {
@@ -210,22 +217,24 @@ public class ChatFragment extends Fragment {
         // Get text from edited text and make edited text empty after it
         TextView mText = binding.getRoot().findViewById(R.id.chat_amc_write);
         String text = mText.getText().toString().trim();
-        mText.setText("");
+        if(!text.equals("")){
+            mText.setText("");
 
-        // Post text message to server
-        ChatQueryExecutor executor = new ChatQueryExecutor();
-        long messageTime = new Date().getTime();
-        LiveData<ChatPOSTReturn> response = executor.getPOSRRespond(
-                BodyCallTypes.SEND_CHAT_TEXT.toString(),
-                chatViewModel.getChatRoomId(),
-                chatViewModel.getChatId(),
-                text,
-                messageTime
-        );
+            // Post text message to server
+            ChatQueryExecutor executor = new ChatQueryExecutor();
+            long messageTime = new Date().getTime();
+            LiveData<ChatPOSTReturn> response = executor.getPOSRRespond(
+                    BodyCallTypes.SEND_CHAT_TEXT.toString(),
+                    chatViewModel.getChatRoomId(),
+                    chatViewModel.getChatId(),
+                    text,
+                    messageTime
+            );
 
-        // liva data observer
-        final Observer<ChatPOSTReturn> dataObserver = items -> responseObserverBody(text, messageTime, null);
-        response.observe(getViewLifecycleOwner(), dataObserver);
+            // liva data observer
+            final Observer<ChatPOSTReturn> dataObserver = items -> responseObserverBody(text, messageTime, null);
+            response.observe(getViewLifecycleOwner(), dataObserver);
+        }
     }
 
     private void responseObserverBody(String text, long messageTime, String uriString) {

@@ -26,7 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatListViewModel extends AndroidViewModel {
-    private long chatRoomId;
+    private static long chatRoomId;
     // Result liveData
     private final MutableLiveData<ArrayList<ChatListItem>> chats;
 
@@ -46,7 +46,6 @@ public class ChatListViewModel extends AndroidViewModel {
     void setChatRoomId(long chatRoomId){
         this.chatRoomId = chatRoomId;
         makeRetrofitQuery();
-        Log.d("ChatListViewModel setChatRoomId: ", Long.toString(chatRoomId));
     }
 
     private void makeRetrofitQuery() {
@@ -57,7 +56,6 @@ public class ChatListViewModel extends AndroidViewModel {
 
         RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
 
-        Log.d("ChatListViewModel makeRetrofitQuery: ", Long.toString(chatRoomId));
         ChatListGETBody chatListGETBody = new ChatListGETBody(
                 BodyCallTypes.CHAT_LIST.toString(),
                 Long.toString(BodyConstants.USER_ID),
@@ -74,7 +72,6 @@ public class ChatListViewModel extends AndroidViewModel {
     }
 
     private void generateCall(Call<ChatListGeneral> call) {
-        Log.d("ChatListViewModel generateCall: ", Long.toString(chatRoomId));
         call.enqueue(new Callback<ChatListGeneral>() {
             @Override
             public void onResponse(@NonNull Call<ChatListGeneral> call, @NonNull Response<ChatListGeneral> response) {
@@ -83,7 +80,6 @@ public class ChatListViewModel extends AndroidViewModel {
                 }
 
                 chats.setValue(setInitialData(response.body().getChatList()));
-                Log.d("ChatListViewModel generateCall2: ", Long.toString(chatRoomId));
             }
 
             @Override
@@ -97,7 +93,6 @@ public class ChatListViewModel extends AndroidViewModel {
 
         if (chatItem != null) {
             for (Chat item : chatItem) {
-                Log.d("ChatListViewModel setInitialData: ", Long.toString(chatRoomId) + " ^ " + item.getDESCRIPTION());
                 chatListItem.add(new ChatListItem(
                         item.getChatroomID(),
                         item.getUser().getId(),
@@ -115,5 +110,9 @@ public class ChatListViewModel extends AndroidViewModel {
 
     public LiveData<ArrayList<ChatListItem>> getChats() {
         return chats;
+    }
+
+    public long getChatRoomId() {
+        return chatRoomId;
     }
 }

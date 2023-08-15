@@ -32,13 +32,20 @@ public interface RetrofitApi {
     @POST(BodyConstants.URL_UPLOAD)
     Call<ChatPOSTReturn> postChatMessage(@Body ChatPOSTBody body);
 
-    @POST(BodyConstants.URL_UPLOAD)
-    Call<ChatListPOSTReturn> postTextChat(@Body ChatListPOSTBody body);
-
     @Multipart
     @POST(BodyConstants.URL_UPLOAD_IMAGE)
     Call<ChatPOSTReturn> uploadImageMessage(
             @Part("FILE") File file,
             @Part("DATA_PACKET") ChatPOSTBody body
+    );
+
+    @POST(BodyConstants.URL_UPLOAD)
+    Call<ChatListPOSTReturn> postTextChat(@Body ChatListPOSTBody body);
+
+    @Multipart
+    @POST(BodyConstants.URL_UPLOAD_IMAGE)
+    Call<ChatListPOSTReturn> postImageChat(
+            @Part("FILE") File file,
+            @Part("DATA_PACKET") ChatListPOSTBody body
     );
 }

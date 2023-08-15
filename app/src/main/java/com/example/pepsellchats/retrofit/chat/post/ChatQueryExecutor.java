@@ -1,7 +1,6 @@
 package com.example.pepsellchats.retrofit.chat.post;
 
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -66,12 +65,10 @@ public class ChatQueryExecutor {
                 }
 
                 respondMessage.setValue(response.body());
-                Log.d("POST return: ", response.body().getSTATUS() + " id: " + response.body().getMESSAGE_ID());
             }
 
             @Override
             public void onFailure(@NonNull Call<ChatPOSTReturn> call, @NonNull Throwable t) {
-                Log.d("POST return: ", "fail");
             }
         });
     }
