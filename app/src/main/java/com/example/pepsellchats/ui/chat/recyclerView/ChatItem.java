@@ -1,4 +1,4 @@
-package com.example.pepsellchats.ui.chat;
+package com.example.pepsellchats.ui.chat.recyclerView;
 
 public class ChatItem {
     private long accUserId;
@@ -9,8 +9,14 @@ public class ChatItem {
     private String mText;
     private long time;
 
-    public ChatItem(long accUserId, long userId, String userName, String userLogo,
-                    String mImage, String mText, long time) {
+    public ChatItem(long accUserId,
+                    long userId,
+                    String userName,
+                    String userLogo,
+                    String mImage,
+                    String mText,
+                    long time) {
+
         this.accUserId = accUserId;
         this.userId = userId;
         this.userName = userName;

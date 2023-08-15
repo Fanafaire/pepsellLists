@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cr_message_card"
@@ -20,22 +20,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.7">
+        app:layout_constraintWidth_percent="0.8">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cr_message_card_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingTop="20dp">
 
             <ImageView
                 android:id="@+id/crmc_image"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@id/crmc_time"
+                app:layout_constraintBottom_toTopOf="@id/crmc_message"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -46,8 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:text="tect teclks ljrbglkab ljrbgan /;lfmfkuu;  rjnujn;ajrn lan hhdkeujhbkag bbbehhh "
                 android:textColor="@color/white"
                 android:textSize="@dimen/sub_header_text"
@@ -55,7 +55,7 @@
                 app:layout_constraintBottom_toTopOf="@id/crmc_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/crmc_image" />
 
             <TextView
                 android:id="@+id/crmc_time"

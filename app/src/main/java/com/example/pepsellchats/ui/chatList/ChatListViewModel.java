@@ -8,10 +8,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.pepsellchats.retrofit.chatList.Chat;
-import com.example.pepsellchats.retrofit.chatList.ChatListGeneral;
-import com.example.pepsellchats.retrofit.chatList.ChatListGETBody;
+import com.example.pepsellchats.retrofit.BodyCallTypes;
+import com.example.pepsellchats.retrofit.BodyConstants;
+import com.example.pepsellchats.retrofit.chatList.get.Chat;
+import com.example.pepsellchats.retrofit.chatList.get.ChatListGeneral;
+import com.example.pepsellchats.retrofit.chatList.get.ChatListGETBody;
 import com.example.pepsellchats.retrofit.RetrofitApi;
+import com.example.pepsellchats.ui.chatList.recyclerView.ChatListItem;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,13 +26,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatListViewModel extends AndroidViewModel {
-    // Body for retrofit
-    private final static String TYPE = "CHAT_LIST";
-    private final static String USER_ID = "380990143524";
-    private final static String APP_ID = "1";
-    private final static long START_PERIOD = 1690819233997L;
-    private final static long FINISH_PERIOD = 1690819233997L;
-    private final static int LIMIT = 10;
     private long chatRoomId;
     // Result liveData
     private final MutableLiveData<ArrayList<ChatListItem>> chats;
@@ -37,7 +33,20 @@ public class ChatListViewModel extends AndroidViewModel {
     public ChatListViewModel(@NonNull Application application) {
         super(application);
         chats = new MutableLiveData<>();
-//        makeRetrofitQuery();
+
+        // Query started after setChatRoomId() from activity
+    }
+
+    /**
+     * Query starts here!!!
+     *
+     * For pass chat room id from activity
+     * @param chatRoomId Chat room id
+     */
+    void setChatRoomId(long chatRoomId){
+        this.chatRoomId = chatRoomId;
+        makeRetrofitQuery();
+        Log.d("ChatListViewModel setChatRoomId: ", Long.toString(chatRoomId));
     }
 
     private void makeRetrofitQuery() {
@@ -49,8 +58,15 @@ public class ChatListViewModel extends AndroidViewModel {
         RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
 
         Log.d("ChatListViewModel makeRetrofitQuery: ", Long.toString(chatRoomId));
-        ChatListGETBody chatListGETBody = new ChatListGETBody(TYPE, USER_ID, APP_ID,
-                new Date().getTime(), chatRoomId, START_PERIOD, FINISH_PERIOD, LIMIT);
+        ChatListGETBody chatListGETBody = new ChatListGETBody(
+                BodyCallTypes.CHAT_LIST.toString(),
+                Long.toString(BodyConstants.USER_ID),
+                BodyConstants.APP_ID,
+                new Date().getTime(),
+                chatRoomId,
+                BodyConstants.START_PERIOD,
+                BodyConstants.FINISH_PERIOD,
+                BodyConstants.LIMIT_CHAT_LISTS);
 
         Call<ChatListGeneral> call = retrofitApi.getChatList(chatListGETBody);
 
@@ -82,9 +98,15 @@ public class ChatListViewModel extends AndroidViewModel {
         if (chatItem != null) {
             for (Chat item : chatItem) {
                 Log.d("ChatListViewModel setInitialData: ", Long.toString(chatRoomId) + " ^ " + item.getDESCRIPTION());
-                chatListItem.add(new ChatListItem(item.getChatroomID(), item.getUser().getId(), item.getID(),
-                        item.getUser().getName(), item.getUser().getLogo(), item.getDESCRIPTION(),
-                        item.getMEDIA_URI(), item.getLAST_MESSAGE_DATE()));
+                chatListItem.add(new ChatListItem(
+                        item.getChatroomID(),
+                        item.getUser().getId(),
+                        item.getID(),
+                        item.getUser().getName(),
+                        item.getUser().getLogo(),
+                        item.getDESCRIPTION(),
+                        item.getMEDIA_URI(),
+                        item.getLAST_MESSAGE_DATE()));
             }
         }
 
@@ -93,15 +115,5 @@ public class ChatListViewModel extends AndroidViewModel {
 
     public LiveData<ArrayList<ChatListItem>> getChats() {
         return chats;
-    }
-
-    /**
-     * For pass chat room id from activity
-     * @param chatRoomId Chat room id
-     */
-    void setChatRoomId(long chatRoomId){
-        this.chatRoomId = chatRoomId;
-        makeRetrofitQuery();
-        Log.d("ChatListViewModel setChatRoomId: ", Long.toString(chatRoomId));
     }
 }

@@ -1,10 +1,15 @@
-package com.example.pepsellchats.ui.chatRoomList;
+package com.example.pepsellchats.ui.chatRoomList.recyclerView;
 
 public class ChatRoomListItem {
     String name, message, phone, url;
     long chatRoomId;
 
-    public ChatRoomListItem(long chatRoomId, String name, String message, String phone, String url) {
+    public ChatRoomListItem(long chatRoomId,
+                            String name,
+                            String message,
+                            String phone,
+                            String url) {
+
         this.chatRoomId = chatRoomId;
         this.name = name;
         this.message = message;

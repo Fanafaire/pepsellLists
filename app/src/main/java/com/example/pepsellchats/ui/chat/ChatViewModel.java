@@ -7,13 +7,15 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+import com.example.pepsellchats.retrofit.BodyCallTypes;
+import com.example.pepsellchats.retrofit.BodyConstants;
 import com.example.pepsellchats.retrofit.RetrofitApi;
 import com.example.pepsellchats.retrofit.chat.get.ChatGETBody;
 import com.example.pepsellchats.retrofit.chat.get.ChatGeneral;
 import com.example.pepsellchats.retrofit.chat.get.Message;
-import com.example.pepsellchats.ui.chatList.ChatListItem;
+import com.example.pepsellchats.ui.chat.recyclerView.ChatItem;
+import com.example.pepsellchats.ui.chatList.recyclerView.ChatListItem;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,17 +27,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatViewModel extends AndroidViewModel {
-    // For get/post body
-    private final static String TYPE = "CHAT_HISTORY";
-    private final static String USER_ID = "380990143524";
-    private final static String APP_ID = "1";
-    private final static long START_PERIOD = 1690819233997L;
-    private final static long FINISH_PERIOD = 1690819233997L;
-    private final static int LIMIT = 30;
     // Ids for get body
     private static long chatRoomId, chatId;
-    // For card
-    private String card_userName, card_message, card_time, card_logo, card_media;
+    private static ChatListItem cardInfo;
     // Result liveData
     private final MutableLiveData<ArrayList<ChatItem>> messages;
 
@@ -47,14 +41,22 @@ public class ChatViewModel extends AndroidViewModel {
 
     private void makeRetrofitQuery() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://wapp.pepsell.net/Pepsell2/")
+                .baseUrl(BodyConstants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
 
-        ChatGETBody chatGETBody = new ChatGETBody(TYPE, USER_ID, APP_ID, new Date().getTime(),
-                chatRoomId, chatId, START_PERIOD, FINISH_PERIOD, LIMIT);
+        ChatGETBody chatGETBody = new ChatGETBody(
+                BodyCallTypes.CHAT_HISTORY.toString(),
+                Long.toString(BodyConstants.USER_ID),
+                BodyConstants.APP_ID,
+                new Date().getTime(),
+                chatRoomId,
+                chatId,
+                BodyConstants.START_PERIOD,
+                BodyConstants.FINISH_PERIOD,
+                BodyConstants.LIMIT_MESSAGES);
 
         Call<ChatGeneral> call = retrofitApi.getChatMessages(chatGETBody);
 
@@ -81,11 +83,15 @@ public class ChatViewModel extends AndroidViewModel {
         ArrayList<ChatItem> chatItemList = new ArrayList<>();
 
         if (messagesList != null) {
-            for(int i = messagesList.size() - 1; i >= 0; i--){
-                Log.d("ChatListViewModel setInitialData: ", Long.toString(chatRoomId) + " ^ " + messagesList.get(i).getText());
-                chatItemList.add(new ChatItem(accUserId, messagesList.get(i).getFromUser().getId(),
-                        messagesList.get(i).getFromUser().getName(), messagesList.get(i).getFromUser().getLogo(),
-                        messagesList.get(i).getMediaURI(), messagesList.get(i).getText(), messagesList.get(i).getMessageTime()));
+            for(int i = 0; i < messagesList.size(); i++){
+                chatItemList.add(new ChatItem(
+                        accUserId,
+                        messagesList.get(i).getFromUser().getId(),
+                        messagesList.get(i).getFromUser().getName(),
+                        messagesList.get(i).getFromUser().getLogo(),
+                        messagesList.get(i).getMediaURI(),
+                        messagesList.get(i).getText(),
+                        messagesList.get(i).getMessageTime()));
             }
         }
 
@@ -118,15 +124,14 @@ public class ChatViewModel extends AndroidViewModel {
      * For get pass from activity to fragment
      */
     void setCardInfo(String card_userName, String card_message, String card_time, String card_logo, String card_media){
-        this.card_userName = card_userName;
-        this.card_message = card_message;
-        this.card_time = card_time;
-        this.card_logo = card_logo;
-        this.card_media = card_media;
+        cardInfo = new ChatListItem(
+                0, 0, 0,
+                card_userName, card_logo,
+                card_message, card_media, card_time
+        );
     }
 
     public ChatListItem getCardInfo(){
-        return new ChatListItem(0, 0, 0,
-                card_userName, card_logo, card_message, card_media, card_time);
+        return cardInfo;
     }
 }

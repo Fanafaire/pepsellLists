@@ -1,4 +1,4 @@
-package com.example.pepsellchats.ui.chat;
+package com.example.pepsellchats.ui.chat.recyclerView;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -45,10 +45,33 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         long accUserId = items.get(position).getAccUserId();
         long userId = items.get(position).getUserId();
 
-        if(accUserId == userId){
-            holder.userCard.setVisibility(View.GONE);
+        // Set time
+        Timestamp ts = new Timestamp(items.get(position).getTime());
+        Date date = new Date(ts.getTime());
+        String strDate = new SimpleDateFormat("hh:mm", Locale.getDefault()).format(date);
+        holder.mTime.setText(strDate);
 
-            // Change bias to show card on left
+        // Hide/show image and text
+        if(items.get(position).getmText() != null && items.get(position).getmImage() != null){
+            holder.mImage.setVisibility(View.VISIBLE);
+            holder.mText.setVisibility(View.VISIBLE);
+            holder.mText.setText(items.get(position).getmText());
+            Picasso.get().load(items.get(position).getmImage()).into(holder.mImage);
+        } else if (items.get(position).getmImage() != null) {
+            holder.mImage.setVisibility(View.VISIBLE);
+            holder.mText.setVisibility(View.GONE);
+            Picasso.get().load(items.get(position).getmImage()).into(holder.mImage);
+        } else if (items.get(position).getmText() != null) {
+            holder.mText.setVisibility(View.VISIBLE);
+            holder.mText.setText(items.get(position).getmText());
+            holder.mImage.setVisibility(View.GONE);
+        }
+
+        // Hide user card if there is message from account user anf move it to right
+        if(accUserId == userId){
+            holder.userCard.setVisibility(View.INVISIBLE);
+
+            // Change bias to show card on right
             ConstraintSet cs = new ConstraintSet();
             cs.clone(holder.layout);
             cs.setHorizontalBias(holder.mCard.getId(), 100);
@@ -58,27 +81,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             holder.userName.setText(items.get(position).getUserName());
             Picasso.get().load(items.get(position).getUserLogo()).into(holder.userLogo);
 
-            // Change bias to show card on right
+            // Change bias to show card on left
             ConstraintSet cs = new ConstraintSet();
             cs.clone(holder.layout);
             cs.setHorizontalBias(holder.mCard.getId(), 0);
             holder.layout.setConstraintSet(cs);
-        }
-
-        Timestamp ts = new Timestamp(items.get(position).getTime());
-        Date date = new Date(ts.getTime());
-        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm", Locale.getDefault());
-        String strDate = formatter.format(date);
-        holder.mTime.setText(strDate);
-
-        if(items.get(position).getmText() != null){
-            holder.mImage.setVisibility(View.GONE);
-            holder.mText.setVisibility(View.VISIBLE);
-            holder.mText.setText(items.get(position).getmText());
-        } else {
-            holder.mText.setVisibility(View.GONE);
-            holder.mImage.setVisibility(View.VISIBLE);
-            Picasso.get().load(items.get(position).getmImage()).into(holder.mImage);
         }
     }
 

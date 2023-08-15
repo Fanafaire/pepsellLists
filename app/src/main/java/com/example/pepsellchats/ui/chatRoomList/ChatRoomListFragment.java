@@ -28,6 +28,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pepsellchats.R;
 import com.example.pepsellchats.databinding.FragmentChatRoomListBinding;
 import com.example.pepsellchats.ui.chatList.ChatListActivity;
+import com.example.pepsellchats.ui.chatRoomList.recyclerView.ChatRoomItemRecyclerViewInterface;
+import com.example.pepsellchats.ui.chatRoomList.recyclerView.ChatRoomListItem;
+import com.example.pepsellchats.ui.chatRoomList.recyclerView.ChatRoomListItemAdapter;
 
 import java.util.ArrayList;
 
@@ -43,7 +46,8 @@ public class ChatRoomListFragment extends Fragment implements ChatRoomItemRecycl
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         chatRoomListViewModel = new ViewModelProvider(this).get(ChatRoomListViewModel.class);
 
         binding = FragmentChatRoomListBinding.inflate(inflater, container, false);

@@ -1,11 +1,17 @@
-package com.example.pepsellchats.ui.chatList;
+package com.example.pepsellchats.ui.chatList.recyclerView;
 
 public class ChatListItem {
     private long userId, chatId, chatRoomId;
     private String userName, userLogoURI, chatDescription, chatMediaURI, chatLastMesDate;
 
-    public ChatListItem(long chatRoomId, long userId, long chatId, String userName, String userLogoURI,
-                        String chatDescription, String chatMediaURI, String chatLastMesDate) {
+    public ChatListItem(long chatRoomId,
+                        long userId,
+                        long chatId,
+                        String userName,
+                        String userLogoURI,
+                        String chatDescription,
+                        String chatMediaURI,
+                        String chatLastMesDate) {
         this.chatRoomId = chatRoomId;
         this.userId = userId;
         this.chatId = chatId;

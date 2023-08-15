@@ -7,10 +7,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.pepsellchats.retrofit.BodyCallTypes;
+import com.example.pepsellchats.retrofit.BodyConstants;
 import com.example.pepsellchats.retrofit.chatRoomList.ChatRoomList;
 import com.example.pepsellchats.retrofit.chatRoomList.Chatroom;
 import com.example.pepsellchats.retrofit.chatRoomList.ChatRoomListGETBody;
 import com.example.pepsellchats.retrofit.RetrofitApi;
+import com.example.pepsellchats.ui.chatRoomList.recyclerView.ChatRoomListItem;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,11 +25,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatRoomListViewModel extends ViewModel {
-    private final static String BASE_URL = "https://wapp.pepsell.net/Pepsell2/";
-    private final static String TYPE = "CHATROOM_LIST";
-    private final static String USER_ID = "380990143524";
-    private final static String APP_ID = "1";
-
     private final MutableLiveData<ArrayList<ChatRoomListItem>> cardsItems;
 
     public ChatRoomListViewModel() {
@@ -43,13 +41,17 @@ public class ChatRoomListViewModel extends ViewModel {
 
     private Call<ChatRoomList> makeRetrofitQuery() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BodyConstants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
 
-        ChatRoomListGETBody chatRoomListGETBody = new ChatRoomListGETBody(TYPE, USER_ID, APP_ID, new Date().getTime());
+        ChatRoomListGETBody chatRoomListGETBody = new ChatRoomListGETBody(
+                BodyCallTypes.CHATROOM_LIST.toString(),
+                Long.toString(BodyConstants.USER_ID),
+                BodyConstants.APP_ID,
+                new Date().getTime());
 
         return retrofitApi.getChatRoomList(chatRoomListGETBody);
     }
@@ -82,8 +84,12 @@ public class ChatRoomListViewModel extends ViewModel {
         if (chatroomItems != null) {
             for (Chatroom item : chatroomItems) {
                 Log.d("ChatRoomListViewModel chatroomid: ", Long.toString(item.getID()));
-                chatRoomListItem.add(new ChatRoomListItem(item.getID(), item.getName(),
-                        item.getDESCRIPTION(), item.getHotlinePhone(), item.getMEDIA_URI()));
+                chatRoomListItem.add(new ChatRoomListItem(
+                        item.getID(),
+                        item.getName(),
+                        item.getDESCRIPTION(),
+                        item.getHotlinePhone(),
+                        item.getMEDIA_URI()));
             }
         }
 

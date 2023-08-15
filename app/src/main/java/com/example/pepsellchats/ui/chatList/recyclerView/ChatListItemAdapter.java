@@ -1,4 +1,4 @@
-package com.example.pepsellchats.ui.chatList;
+package com.example.pepsellchats.ui.chatList.recyclerView;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,8 +21,9 @@ public class ChatListItemAdapter extends RecyclerView.Adapter<ChatListItemAdapte
     private final LayoutInflater inflater;
     private final ChatItemRecyclerViewInterface recViewInterface;
 
-    public ChatListItemAdapter(Context context, List<ChatListItem> items,
-                                   ChatItemRecyclerViewInterface recViewInterface) {
+    public ChatListItemAdapter(Context context,
+                               List<ChatListItem> items,
+                               ChatItemRecyclerViewInterface recViewInterface) {
         this.context = context;
         this.items = items;
         this.inflater = LayoutInflater.from(context);

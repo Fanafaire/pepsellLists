@@ -1,4 +1,4 @@
-package com.example.pepsellchats.retrofit.chatList;
+package com.example.pepsellchats.retrofit.chatList.get;
 
 public class ChatListGETBody {
     private String TYPE;

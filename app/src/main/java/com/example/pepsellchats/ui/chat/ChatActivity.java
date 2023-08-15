@@ -30,10 +30,15 @@ public class ChatActivity extends AppCompatActivity {
 
         long chatRoomId = getIntent().getLongExtra("chatRoomId", 0);
         long chatId = getIntent().getLongExtra("chatId", 0);
-
-        Log.d("ChatActivity: ", Long.toString(chatRoomId));
-
+        
         ChatViewModel viewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         viewModel.setChatIds(chatRoomId, chatId);
+        viewModel.setCardInfo(
+                getIntent().getStringExtra("Card_userName"),
+                getIntent().getStringExtra("Card_message"),
+                getIntent().getStringExtra("Card_time"),
+                getIntent().getStringExtra("Card_logo"),
+                getIntent().getStringExtra("Card_media")
+        );
     }
 }
